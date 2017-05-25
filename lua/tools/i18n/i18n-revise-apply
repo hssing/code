@@ -1,0 +1,4 @@
+#!/usr/bin/env lua
+require("pl.app").require_here("lib")
+require("pl.app").require_here("src")
+require("i18n")

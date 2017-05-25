@@ -1,0 +1,128 @@
+#!/usr/bin/env lua
+
+require "std"
+require "luaxml"
+
+local json = require "json"
+
+local pl = {}
+pl.app  = require "pl.app"
+pl.path = require "pl.path"
+pl.dir  = require "pl.dir"
+pl.file = require "pl.file"
+
+local path = arg[1]
+assert(pl.path.isfile(path))
+
+local function getContext(path)
+    local context = {}
+    context.path = path
+    context.tmp = pl.path.basename(path) .. ".tmp"
+    return context
+end
+
+local function extract(context)
+    local fmt = 'tar zxf "%s" -C "%s"'
+    if pl.app.platform() == "Windows" then
+    local dir = pl.path.dirname(arg[0])
+        fmt = pl.path.join(dir, "unzip") .. ' -qq "%s" -d "%s"'
+    end
+    pl.dir.makepath(context.tmp)
+    os.execute(string.format(fmt, context.path, context.tmp))
+end
+
+local function cleanup(context)
+    pl.dir.rmtree(context.tmp)
+end
+
+local function readFile(path)
+    return xml.eval(pl.file.read(path))
+end
+
+local function getSheets(context)
+    local path = pl.path.join(context.tmp, "xl", "workbook.xml")
+
+    local sheets = list.filter(function(sheet)
+        return (sheet.state ~= "hidden")
+    end, readFile(path):find("sheets"))
+
+    return list.map(function(sheet)
+        return { id = sheet.sheetId, name = sheet.name, }
+    end, sheets)
+end
+
+local function readStrings(context)
+    local path = pl.path.join(context.tmp, "xl", "sharedStrings.xml")
+    return list.map(function(item)
+        assert(item[1]:tag() == "t")
+        return item[1][1]
+    end, readFile(path))
+end
+
+local function getColAmount(node)
+    local cols = node:find("cols")
+    return cols[#cols].min - 2
+end
+
+local function getColIndex(name)
+    local code = string.match(name, "%a+")
+    local index = 0
+    for i = 1, #code do
+        index = index * 26 + string.byte(code, i) - string.byte("A") + 1
+    end
+    return index
+end
+
+local function readCell(context, colAmount, node)
+    local index = getColIndex(node.r)
+    if index > colAmount or node.t == nil then
+        return nil
+    end
+
+    if node.t ~= "s" then
+        error(string.format("Encounter unknown type: <%s>", node.t))
+    end
+
+    local cell =
+    {
+        index = index,
+        value = context.strings[node[1][1] + 1],
+    }
+    return cell
+end
+
+local function readSheet(context, sheet)
+    local name = string.format("sheet%s.xml", sheet.id)
+    local path = pl.path.join(context.tmp, "xl", "worksheets", name)
+    local root = readFile(path)
+    local colAmount = getColAmount(root)
+    local data = list.map(function(row)
+        return list.map(function(cell)
+            return readCell(context, colAmount, cell)
+        end, list.slice(row, 1, colAmount))
+    end, root:find("sheetData"))
+    return { name = sheet.name, colAmount = colAmount, data = data, }
+end
+
+local function convert(path)
+    local context = getContext(path)
+
+    local succ, err = xpcall(function()
+        extract(context)
+        context.strings = readStrings(context)
+        context.sheets = list.map(function(sheet)
+            return readSheet(context, sheet)
+        end, getSheets(context))
+        print(json.encode(context.sheets))
+    end, function(err)
+        return debug.traceback(err)
+    end)
+
+    if not succ then
+        io.stderr:write(err .. "\n")
+    end
+
+    cleanup(context)
+end
+
+convert(path)
