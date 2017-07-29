@@ -1,0 +1,24 @@
+#! /usr/bin/python
+#! coding=utf-8
+import os
+import sys
+import subprocess
+import re
+print("正在卸载磁盘...")
+
+res = subprocess.Popen('diskutil list',shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,close_fds=True)
+lines = res.stdout.readlines()
+
+fataPatern = re.compile(r".*?Windows_NTFS.*?")
+diskPatern = re.compile(r".*?(disk\ds\d).*?")
+for line in lines:
+	fataArr = fataPatern.findall(line)
+	if len(fataArr) > 0:
+		diskArr = diskPatern.findall(line)
+		if len(diskArr) > 0:
+			print("正在卸载磁盘%s" % diskArr[0])
+			diskDir = "~/Desktop/%s" % diskArr[0]
+			os.system("umount /dev/%s" % diskArr[0])
+#			os.system("rm -rf %s" % diskDir)
+
+print("卸载完成，赶紧去试试吧...^@^")
