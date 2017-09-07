@@ -1,0 +1,22 @@
+
+{
+	"1001":{   
+			"hit_type":1, 
+			"attack_type":1, 
+			"pre_attack_effect":"", 
+			"attack_effect":"", 
+			"bullet_res":"", 
+			"skill_effect":"", 
+			"hit_effect_res":"", 
+			"dead_effect_res":"", 
+			"pre_attack_music":"", 
+			"attack_music":"", 
+			"bullet_music":"", 
+			"skill_effect_music":"", 
+			"hit_effect_music":"", 
+			"dead_effect_music":"", 
+			"bullet_fly_type":1 
+		}
+
+}
+        

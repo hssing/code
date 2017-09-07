@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="ActionMenuUISkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group width="248" height="200" horizontalCenter="0" verticalCenter="0" touchEnabled="false" touchChildren="true">
+		<e:Image scaleX="1" scaleY="1" source="frame_dianjikongdi_s1_png" anchorOffsetX="0" anchorOffsetY="0" touchEnabled="false" left="0" right="0" top="0" bottom="0"/>
+		<e:Label id="lbInfo" text="x, y" y="174" textAlign="center" right="0" left="0" size="16" strokeColor="0x161111" stroke="2" textColor="0x377a16" alpha="0.8"/>
+		<e:Group height="113" y="35" scaleX="1" scaleY="1" anchorOffsetX="0" anchorOffsetY="0" touchEnabled="false" x="188">
+			<e:Button id="btnBack" label="" scaleX="1" scaleY="1" horizontalCenter="0" verticalCenter="-4" anchorOffsetX="52" anchorOffsetY="52">
+			<e:skinName>
+				<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="frame_dianjikongdi_s2_png" source.down="frame_dianjikongdi_s2_png" scaleX.down="0.9" scaleY.down="0.9"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" scaleX.down="0.9" scaleY.down="0.9"/>
+				</e:Skin>
+			</e:skinName>
+			</e:Button>
+			<e:Image y="22" touchEnabled="false" horizontalCenter="0" source="icon_dianjikongdi_guanbi_s1_png"/>
+			<e:Label text="关闭" y="69" size="19" stroke="1" strokeColor="0x161111" textColor="0xFFF4D7" horizontalCenter="0"/>
+		</e:Group>
+		<e:Group height="113" y="35" scaleX="1" scaleY="1" anchorOffsetX="0" anchorOffsetY="0" touchEnabled="false" x="-40">
+			<e:Button id="btnAction" label="" scaleX="1" scaleY="1" horizontalCenter="0" verticalCenter="-4" anchorOffsetX="52" anchorOffsetY="52">
+			<e:skinName>
+				<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="frame_dianjikongdi_s2_png" source.down="frame_dianjikongdi_s2_png" scaleX.down="0.9" scaleY.down="0.9"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" scaleX.down="0.9" scaleY.down="0.9"/>
+				</e:Skin>
+			</e:skinName>
+			</e:Button>
+			<e:Image y="15" source="icon_dianjikongdi_chuzheng_s3_png" touchEnabled="false" horizontalCenter="0"/>
+			<e:Label text="出征" y="69" size="19" stroke="1" strokeColor="0x161111" textColor="0xfff4d7" horizontalCenter="0"/>
+		</e:Group>
+		<e:Group height="113" y="-44" scaleX="1" scaleY="1" anchorOffsetX="0" anchorOffsetY="0" touchEnabled="false" x="75">
+			<e:Button id="btnBuild" label="" scaleX="1" scaleY="1" anchorOffsetX="52" anchorOffsetY="52" x="52" y="52">
+			<e:skinName>
+				<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="frame_dianjikongdi_s2_png" source.down="frame_dianjikongdi_s2_png" scaleX.down="0.9" scaleY.down="0.9"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" scaleX.down="0.9" scaleY.down="0.9"/>
+				</e:Skin>
+			</e:skinName>
+			</e:Button>
+			<e:Image y="15" touchEnabled="false" horizontalCenter="0" source="icon_dianjikongdi_jianzao_s2_png"/>
+			<e:Label text="建造" y="69" size="19" stroke="1" strokeColor="0x161111" textColor="0xFFF4D7" horizontalCenter="0"/>
+		</e:Group>
+	</e:Group>
+</e:Skin>

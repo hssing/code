@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="AnimationUISkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*">
+	<w:Declarations>
+		<tween:TweenGroup id="start">
+			<tween:TweenItem target="{btnClose}">
+				<tween:Set/>
+				<tween:To duration="1000">
+					<tween:props>
+						<e:Object x="{254}" y="{356}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<e:Image height="100%" width="100%" x="0" y="0" source=""/>
+	<e:Image width="100%" y="0" height="100%" x="0" source=""/>
+	<e:Button id="btnClose" label="动画测试" x="252" y="543">
+	</e:Button>
+	<e:Label multiline="true" text="UI动画测试，具体看Animt类的使用" 
+	         size="18" width="173" height="102" fontFamily="微软雅黑"
+	         stroke="1" strokeColor="0"  horizontalCenter="0.5" verticalCenter="-75"/>
+</e:Skin>

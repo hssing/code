@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="ArmyMoveUISkin" width="720" height="1140" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ui="ui.*">
+	<e:Group width="660" height="950" verticalCenter="0" horizontalCenter="0" anchorOffsetY="200">
+		<e:Image width="100%" height="100%" x="0" y="0" scaleX="1" scaleY="1" source="camp_bg_fuyong_1_png" scale9Grid="23,23,140,140"/>
+		<e:Image x="0" y="0" source="camp_headline_fuyong_S1_png" width="660"/>
+		<e:Scroller width="610" height="770" enabled="true" scaleX="1" scaleY="1" horizontalCenter="0" verticalCenter="0">
+			<e:List id="lstArmy" height="100%" y="-26" x="1" width="100%" itemRenderer="ui.ArmyMoveItem" itemRendererSkinName="ArmyMoveListIRSkin">
+				<e:layout>
+					<e:VerticalLayout/>
+				</e:layout>
+			</e:List>
+		</e:Scroller>
+		<e:Button id="btnClose" label="" right="0" scaleX="0.9" scaleY="0.9" y="2">
+			<e:skinName>
+			<e:Skin states="up,down,disabled" xmlns:ns1="*">
+				<e:Image width="100%" height="100%" source="camp_bt_close_png" source.down="camp_bt_close_png"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+			</e:Skin>
+			</e:skinName>
+		</e:Button>
+		<e:Button id="btnOK" label="" right="25" scaleX="0.9" scaleY="0.9" skinName="ArmyMove.ButtonSkin" width="140" height="60" bottom="9">
+		</e:Button>
+		<e:Label text="确认" x="543" y="900" size="28" stroke="3" touchEnabled="false" strokeColor="0x3c2d28"/>
+	</e:Group>
+</e:Skin>

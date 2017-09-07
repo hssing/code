@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="BuildTimeProgress" width="113" height="16" xmlns:e="http://ns.egret.com/eui">
+	<e:Image width="113"
+			 height="16" verticalCenter="0" scale9Grid="30,5,79,4" source="profress_jianzuxuanzhong_s2_png" touchEnabled="false"/>
+	<e:Image id="thumb" height="12" width="109" source="profress_jianzuxuanzhong_s1_png" y="2" x="2" touchEnabled="false"/>
+	<e:Label id="labelDisplay" textAlign="center" verticalAlign="middle"
+			 size="15" fontFamily="Tahoma" textColor="0x707070"
+			 horizontalCenter="0" verticalCenter="0" visible="false"/>
+</e:Skin>

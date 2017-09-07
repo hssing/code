@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="BuildingProgress" width="134" height="14" xmlns:e="http://ns.egret.com/eui">
+	<e:Image width="100%"
+			 height="100%" verticalCenter="0" source="frame_jianzuxuanzhong_s7_png" scale9Grid="20,6,97,2"/>
+	<e:Image id="thumb" height="6" width="126" source="pic_jianzuxuanzhong_s11_png" y="4" x="4"/>
+	<e:Label id="labelDisplay" textAlign="center" verticalAlign="middle"
+			 size="15" fontFamily="Tahoma" textColor="0x707070"
+			 horizontalCenter="0" verticalCenter="0" visible="false"/>
+</e:Skin>

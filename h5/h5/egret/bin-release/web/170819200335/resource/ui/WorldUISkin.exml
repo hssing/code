@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="aboutUISkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group id="gpMap" horizontalCenter="0" verticalCenter="0" bottom="0" top="0" left="0" right="0"/>
+	<e:Group id="gpDis" width="80" height="20" x="184" y="302" anchorOffsetY="10" scaleX="1" scaleY="1" anchorOffsetX="40">
+		<e:Label id="lbDis" text="100公里" size="18" verticalCenter="0" left="0" textAlign="center" right="0"/>
+	</e:Group>
+</e:Skin>

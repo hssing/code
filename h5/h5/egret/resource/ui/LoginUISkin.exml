@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="LoginUISkin" width="720" height="1140" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image source="game_BG_jpg" scale9Grid="10,10,10,10" verticalCenter="0" horizontalCenter="0" width="852" height="1136"/>
+	<e:Group id="group" width="80%" height="300" anchorOffsetX="0" anchorOffsetY="0" bottom="142" horizontalCenter="0">
+		<e:Image width="309" height="55" y="32" source="common_bk3_png" fillMode="scale" scale9Grid="9,9,10,10" horizontalCenter="0"/>
+		<e:Image width="309" height="55" y="122.3" source="common_bk3_png" fillMode="scale" scale9Grid="9,9,10,10" horizontalCenter="0.5"/>
+		<e:EditableText id="account" text="" y="42.04" size="25" width="300" horizontalCenter="0" textAlign="center"/>
+		<e:ToggleButton id="btnLogin" label="" x="133" y="190" horizontalCenter="0">
+			<e:skinName>
+				<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="btn_denglu_s1_png" source.down="btn_denglu_s1_png"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+			</e:skinName>
+		</e:ToggleButton>
+		<e:Label id="serverName" text="" y="135.39" width="200" size="25" textColor="0xffffff" textAlign="center" horizontalCenter="0"/>
+		<e:Button id="btnServer" label="" y="135.39" width="200" height="30" alpha="0" horizontalCenter="0"/>
+		<e:Label text="账号" x="73" y="42.04" textColor="0xfffae9"/>
+		<e:Label text="服务器" x="43" y="136.39" textColor="0xfffae9"/>
+		<e:Label text="登录游戏" x="245.85" y="212.48" size="25" touchEnabled="false" stroke="2" strokeColor="0x211717"/>
+	</e:Group>
+</e:Skin>

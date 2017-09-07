@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="CampUISkin" width="720" height="1140" xmlns:e="http://ns.egret.com/eui" xmlns:ns1="*" xmlns:w="http://ns.egret.com/wing">
+	<e:Group width="720" height="1140" x="0" y="0">
+		<e:Image x="0" y="0" scaleX="1" scaleY="1" source="camp_bg_junying_s1_png"/>
+		<e:Group width="100%" height="52%" x="0" y="0">
+			<e:Group width="100%" height="59" x="0" y="0">
+				<e:Image x="0" y="0" source="camp_headline_fuyong_S1_png"/>
+				<e:Group width="96" height="46" x="29" y="6" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+					<e:Image x="1" verticalCenter="0" source="main_up_resources_bg_png"/>
+					<e:Image x="0" source="main_resources_1_png" verticalCenter="0" anchorOffsetX="19"/>
+					<e:Label text="20.1w" size="19" verticalCenter="0" horizontalCenter="0" textColor="0xE6D6C9"/>
+				</e:Group>
+				<e:Group width="96" height="46" x="150.66666666666666" y="5" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+					<e:Image x="1" verticalCenter="0" source="main_up_resources_bg_png"/>
+					<e:Image x="0" verticalCenter="0" anchorOffsetX="19" source="main_resources_2_png"/>
+					<e:Label text="20.1w" size="19" verticalCenter="0" horizontalCenter="0" textColor="0xE6D6C9"/>
+				</e:Group>
+				<e:Group width="96" height="46" x="272.3333333333333" y="5" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+					<e:Image x="1" verticalCenter="0" source="main_up_resources_bg_png"/>
+					<e:Image x="0" verticalCenter="0" anchorOffsetX="19" source="main_resources_3_png"/>
+					<e:Label text="20.1w" size="19" verticalCenter="0" horizontalCenter="0" textColor="0xE6D6C9"/>
+				</e:Group>
+				<e:Group width="96" height="46" x="394" y="6" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+					<e:Image x="1" verticalCenter="0" source="main_up_resources_bg_png"/>
+					<e:Image x="0" verticalCenter="0" anchorOffsetX="19" source="main_resources_4_png"/>
+					<e:Label text="20.1w" size="19" verticalCenter="0" horizontalCenter="0" textColor="0xE6D6C9"/>
+				</e:Group>
+				<e:Button id="btnClose" label="" x="583" y="-1">
+					<e:skinName>
+						<e:Skin states="up,down,disabled">
+						<e:Image width="100%" height="100%" source="camp_bt_close_png" source.down="camp_bt_close_png"/>
+						<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+						</e:Skin>
+					</e:skinName>
+				</e:Button>
+			</e:Group>
+			<e:Group width="720" height="554" x="0.67" y="68">
+				<e:Image x="0" y="0" source="camp_bg_junying_s2_png"/>
+				<e:Group width="291" height="61" x="199" y="14" anchorOffsetY="0" anchorOffsetX="0">
+					<e:Button label="" verticalCenter="2.5" right="0" width="27">
+						<e:skinName>
+							<e:Skin states="up,down,disabled">
+							<e:Image width="100%" height="100%" source="camp_btn_left_s1_png" source.down="camp_btn_left_s2_png" source.disabled="camp_btn_left_s3_png"/>
+							<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+							</e:Skin>
+						</e:skinName>
+					</e:Button>
+					<e:Button label="" verticalCenter="-3.5" left="0" width="27" rotation="180">
+						<e:skinName>
+							<e:Skin states="up,down,disabled">
+							<e:Image width="100%" height="100%" source="camp_btn_left_s1_png" source.down="camp_btn_left_s2_png" source.disabled="camp_btn_left_s3_png"/>
+							<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+							</e:Skin>
+						</e:skinName>
+					</e:Button>
+					<e:Label text="前军营" size="40" horizontalCenter="0" verticalCenter="0" textColor="0xcd9b85" stroke="2"/>
+				</e:Group>
+				<e:Button label="" x="538" y="14">
+					<e:skinName>
+						<e:Skin states="up,down,disabled">
+						<e:Image width="100%" height="100%" source="camp_btn_junying_s1_png" source.down="camp_btn_junying_s2_png" source.disabled="camp_btn_junying_s3_png"/>
+						<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+						</e:Skin>
+					</e:skinName>
+				</e:Button>
+				<e:Label text="征兵" x="591" y="31" stroke="3" size="27" textColor="0xffe9df" touchEnabled="false"/>
+				<e:Group id="preGroup" width="207" height="326" x="23" y="105">
+					<e:Image x="0" y="0" scaleX="1" scaleY="1" width="207" height="326" source="camp_binpaidikuang_png"/>
+					<e:Label text="前军部队" verticalCenter="-54" horizontalCenter="0" size="42" textColor="0xc1a8a3" stroke="3" anchorOffsetY="0" height="74" anchorOffsetX="0" width="84"/>
+					<e:Label text="【3级解锁】" textColor="0x3b312b" size="26" verticalCenter="50" horizontalCenter="0" visible="false"/>
+					<e:Group id="preHeadGroup" width="207" height="326" x="0" y="0" visible="false">
+						<e:Image id="preHeadBg" x="6.079999999999998" y="9.120000000000005" scaleX="0.95" scaleY="0.95" width="207" height="326" source="camp_kapai_1_png"/>
+						<e:Image x="-1.52" y="0" scaleX="1" scaleY="1" source="camp_pic_junying_s9_png"/>
+						<e:Label text="重兵步兵" x="65.39" y="259.03" anchorOffsetX="0" width="100" size="22" textColor="0xf9f9f9" stroke="3"/>
+						<e:Group width="27" height="159" x="6.33" y="73" anchorOffsetY="0" anchorOffsetX="0">
+							<e:Image x="-1" source="camp_pic_junying_s10_png"/>
+							<e:Image y="29.8" x="-1" source="camp_pic_junying_s10_png"/>
+							<e:Image y="59.099999999999994" x="-1" source="camp_pic_junying_s10_png"/>
+							<e:Image y="88.89999999999999" x="-1" source="camp_pic_junying_s10_png"/>
+							<e:Image y="119.19999999999999" x="-1" source="camp_pic_junying_s10_png"/>
+							<e:Label text="99" x="2.5" y="-57" size="27" textColor="0xFFE9DF"/>
+						</e:Group>
+						<e:Image horizontalCenter="0.5" bottom="0" width="207" height="40" source="camp_bluebaitiao_png"/>
+						<e:Label text="100/200" y="293" horizontalCenter="0.5" size="25" textColor="0xefefef" stroke="2"/>
+					</e:Group>
+				</e:Group>
+				<e:Group id="midGroup" width="207" height="326" x="254.16" y="105">
+					<e:Image x="0" y="0" scaleX="1" scaleY="1" width="207" height="326" source="camp_binpaidikuang_png"/>
+					<e:Label text="中军部队" verticalCenter="-54" horizontalCenter="0" size="42" textColor="0xC1A8A3" stroke="3" anchorOffsetY="0" height="74" anchorOffsetX="0" width="84"/>
+					<e:Label text="【3级解锁】" textColor="0x3B312B" size="26" verticalCenter="50" horizontalCenter="0" visible="false"/>
+					<e:Group id="midHeadGroup" width="207" height="326" x="0" y="0" visible="false">
+						<e:Image id="midHeadBg" x="6.079999999999984" y="9.120000000000005" scaleX="0.95" scaleY="0.95" width="207" height="326" source="camp_kapai_1_png"/>
+					<e:Image x="-1.52" y="0" scaleX="1" scaleY="1" source="camp_pic_junying_s9_png"/>
+					<e:Label text="重兵步兵" x="65.39" y="259.03" anchorOffsetX="0" width="100" size="22" textColor="0xF9F9F9" stroke="3"/>
+					<e:Group width="27" height="159" x="6.33" y="73" anchorOffsetY="0" anchorOffsetX="0">
+						<e:Image x="-1" source="camp_pic_junying_s10_png"/>
+						<e:Image y="29.8" x="-1" source="camp_pic_junying_s10_png"/>
+						<e:Image y="59.099999999999994" x="-1" source="camp_pic_junying_s10_png"/>
+						<e:Image y="88.89999999999999" x="-1" source="camp_pic_junying_s10_png"/>
+						<e:Image y="119.19999999999999" x="-1" source="camp_pic_junying_s10_png"/>
+						<e:Label text="99" x="2.5" y="-57" size="27" textColor="0xFFE9DF"/>
+					</e:Group>
+					<e:Image horizontalCenter="0.5" bottom="0" width="207" height="40" source="camp_bluebaitiao_png"/>
+					<e:Label text="100/200" y="293" horizontalCenter="0.5" size="25" textColor="0xEFEFEF" stroke="2"/>
+					</e:Group>
+				</e:Group>
+				<e:Group id="backGroup" width="207" height="326" x="484.56" y="105">
+					<e:Image x="0" y="0" scaleX="1" scaleY="1" width="207" height="326" source="camp_binpaidikuang_png"/>
+					<e:Label text="后军部队" verticalCenter="-54" horizontalCenter="0" size="42" textColor="0xC1A8A3" stroke="3" anchorOffsetY="0" height="74" anchorOffsetX="0" width="84"/>
+					<e:Label text="【3级解锁】" textColor="0x3B312B" size="26" verticalCenter="50" horizontalCenter="0" visible="false"/>
+					<e:Group id="backHeadGroup" width="207" height="326" x="0" y="0" visible="false">
+						<e:Image id="backHeadBg" x="6.079999999999984" y="9.120000000000005" scaleX="0.95" scaleY="0.95" width="207" height="326" source="camp_kapai_1_png"/>
+					<e:Image x="-1.52" y="0" scaleX="1" scaleY="1" source="camp_pic_junying_s9_png"/>
+					<e:Label text="重兵步兵" x="65.39" y="259.03" anchorOffsetX="0" width="100" size="22" textColor="0xF9F9F9" stroke="3"/>
+					<e:Group width="27" height="159" x="6.33" y="73" anchorOffsetY="0" anchorOffsetX="0">
+						<e:Image x="-1" source="camp_pic_junying_s10_png"/>
+						<e:Image y="29.8" x="-1" source="camp_pic_junying_s10_png"/>
+						<e:Image y="59.099999999999994" x="-1" source="camp_pic_junying_s10_png"/>
+						<e:Image y="88.89999999999999" x="-1" source="camp_pic_junying_s10_png"/>
+						<e:Image y="119.19999999999999" x="-1" source="camp_pic_junying_s10_png"/>
+						<e:Label text="99" x="2.5" y="-57" size="27" textColor="0xFFE9DF"/>
+					</e:Group>
+					<e:Image horizontalCenter="0.5" bottom="0" width="207" height="40" source="camp_bluebaitiao_png"/>
+					<e:Label text="100/200" y="293" horizontalCenter="0.5" size="25" textColor="0xEFEFEF" stroke="2"/>
+					</e:Group>
+				</e:Group>
+				<e:Group width="100%" height="86" x="0" y="448.4" anchorOffsetY="0" anchorOffsetX="0">
+					<e:Label text="战力:" x="29" y="12" size="23" textColor="0xdacfcb" stroke="2"/>
+					<e:Label text="9999999" x="86" y="12" size="23" textColor="0xDACFCB" stroke="2"/>
+					<e:Label text="部队负重撤离:" x="253" y="12" size="23" textColor="0xDACFCB" stroke="2"/>
+					<e:Label text="999999" x="400.9" y="12" size="23" textColor="0xDACFCB" stroke="2"/>
+					<e:Label text="体力:" x="484.56" y="12" size="23" textColor="0xDACFCB" stroke="2"/>
+					<e:Label text="888888" x="540.51" y="12" size="23" textColor="0xDACFCB" stroke="2"/>
+					<e:Label text="人口:" x="29" y="46" size="23" textColor="0xDACFCB" stroke="2"/>
+					<e:Label text="88888888" x="86" y="46" size="23" textColor="0xDACFCB" stroke="2"/>
+					<e:Label text="行军速度:" x="253" y="46" size="23" textColor="0xDACFCB" stroke="2"/>
+					<e:Label text="888888" x="354.66" y="46" size="23" textColor="0xDACFCB" stroke="2"/>
+				</e:Group>
+			</e:Group>
+		</e:Group>
+		<e:Group width="100%" height="525" x="0" y="616" anchorOffsetY="0">
+			<e:Label text="我的兵牌" x="24.64" y="16" textColor="0xc4d8ec" size="32" stroke="2"/>
+			<e:RadioButton id="btn_Hum" label="" x="24.63" y="68" selected="true" width="161" height="77" skinName="Camp.RadioButtonSkin">
+			</e:RadioButton>
+			<e:RadioButton id="btn_Chariot" label="" x="195.66333333333333" y="68" skinName="Camp.RadioButtonSkin">
+			</e:RadioButton>
+			<e:RadioButton id="btn_Fighter" label="" x="366.4366666666666" y="68" skinName="Camp.RadioButtonSkin">
+			</e:RadioButton>
+			<e:RadioButton id="btn_Biochemical" label="" x="537.15" y="68" skinName="Camp.RadioButtonSkin">
+			</e:RadioButton>
+			<e:Label text="人类" x="69.32" y="92" size="32" textColor="0xa5d0f6" touchEnabled="false"/>
+			<e:Label text="战车" x="242.83666666666667" y="92" size="32" textColor="0x5F7071" touchEnabled="false"/>
+			<e:Label text="战机" x="416.33333333333337" y="92" size="32" textColor="0x5F7071" touchEnabled="false"/>
+			<e:Label text="生化" x="589.5" y="92" size="32" textColor="0x5F7071" touchEnabled="false"/>
+			<e:Scroller width="668" height="332" x="28" y="158.33" anchorOffsetX="0" anchorOffsetY="0">
+				<e:List id="soldierList" x="31.17" y="162.5" itemRendererSkinName="SoilderHeadItemUISkin" itemRenderer="ui.SoldierHeadItem">
+					<e:layout>
+						<e:TileLayout requestedColumnCount="4"/>
+					</e:layout>
+				</e:List>
+			</e:Scroller>
+		</e:Group>
+	</e:Group>
+</e:Skin>

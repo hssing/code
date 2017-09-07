@@ -1,0 +1,246 @@
+// name: 前后端通信协议文件
+// author: daer-lxf
+// time: 2017-7-13 14:32:06
+// desc: 上行的协议必须有协议号和路由，下行的协议只需要有协议号，子协议（及p结构）两者都不需要。
+// 协议的每个字段尽量都要写清注释
+
+// 登陆
+message m_login_auth_tos{
+ required string				aid	 				= 1[default = ""]; //账号id
+}
+
+message m_login_auth_toc{
+ required   int32				ret_code 					=1[default = 0];	// 错误码
+ repeated   p_login_info        login_info                  =2;                 // 角色登陆信息，没角色则为空
+}
+
+// 创角
+message m_login_create_role_tos{
+    required int32             sex                      =1[default=0]; //性别
+    required string            nick                     =2[default=""]; //昵称
+    required int32             camp                     =3[default=0];// 阵营
+}
+
+message m_login_create_role_toc{
+    required int32              ret_code                =1[default=0];//返回码
+    required int32              role_id                 =2[default=0]; //玩家id
+}
+
+
+// 获取玩家详情
+message m_login_get_role_detail_tos{
+    required int32              role_id                 =1[default=0];// 玩家id，必须是自己的id
+}
+
+message m_login_get_role_detail_toc{
+    required int32               ret_code                 =1[default=0];//返回码
+    required p_detail_role       role_info                =2;           //玩家详细信息
+}
+
+
+
+
+// 场景
+
+// 获取场景视野内的所有对象
+message m_map_get_view_obj_tos{
+     required  p_point          point                    =1;                 //坐标
+     required  int32            width                    =2;                //视野宽
+     required  int32            height                   =3;                // 视野高
+}
+
+message m_map_sight_toc{
+ repeated p_map_army			army_list				= 1;				// 部队列表
+ repeated p_map_phalanx			phalanx_list			= 2;				// 方阵列表
+ repeated p_map_build           build_list              = 3;                //建筑列表
+}
+
+// 离开视野
+message m_map_sight_leave_toc{
+  repeated int32					amy_id					= 1;				// 部队id
+  repeated int32				phalanx_id				    = 2;				// 方阵id
+}
+
+
+//进入视野
+message m_map_sight_enter_toc{
+ repeated p_map_army					army_list					= 1;	// 部队信息
+ repeated p_map_phalanx					phalanx_list				= 2;	// 方阵信息
+ repeated p_map_build                   build_list                  = 3;    //建筑列表
+}
+
+
+// 更新对象的移动状态
+message m_map_obj_move_info_toc {
+    required int32     obj_id                               =1[default=0];  //对象id
+    required int32     obj_type                             =2;
+    required int32     status                               =3[default=0];   //移动状态
+    required p_point   cur_point                            =4;              //当前点
+    required p_point   end_point                            =5;  // 终点
+    repeated p_point   path                                 =6;              //剩余路径点
+}
+// 建筑
+
+message m_build_get_build_list_tos{
+
+}
+
+message m_build_get_build_list_toc{
+    repeated   p_build   build_list         =1; // 建筑信息
+}
+
+
+//出征
+message m_build_go_to_battle_tos {
+    required int32        build_id           =1[default=0];//建筑id
+    required int32        army_id            =2[default=0];//部队id
+    required int32        x                  =3[default=0];//x
+    required int32        y                  =4[default=0];//y
+}
+
+message m_build_go_to_battle_toc{
+    required int32         ret_code          =0[default=0];//返回码
+}
+
+
+
+// 部队 士兵
+
+// 获取兵牌
+message m_army_get_own_soldier_tos {
+
+}
+
+message m_army_get_own_soldier_toc{
+    repeated int32     soldiers     =1;// 拥有的兵牌
+}
+
+//上阵
+message m_army_set_soldier_tos {
+    required  int32  build_id  = 1[default=0]; // 建筑id
+    required  int32  army_id   = 2[default=0]; // 部队id
+    required  int32  pos       = 3[default=0];// 位置 1 前排 2中排  3 后排
+    required  int32  soldier_type = 4[default=0];// 兵牌
+}
+
+message m_army_set_soldier_toc {
+    required   int32  ret_code  = 1[default=0]; //返回码
+}
+// 玩家基础信息
+message p_role_base{
+     required int32					role_id	 				= 1[default = 0];	// 角色id
+     required string                nick                    = 2[default=""];   //角色名字
+     required int32                 lv                      = 3[default=0];    //等级
+     required int32                 camp                    = 4[default=0];  // 阵营
+}
+
+
+// 士兵信息
+message p_army_soldiers {
+    required int32                 soldiers_id              =1[default=0];// 士兵id
+    required int32                 hp                       =2[default=0];//当前血量
+    required int32                 max_hp                   =3[default=0];//最大血量
+}
+
+//部队信息
+message p_army{
+    required int32                 army_id                  =1[default=0];//部队id
+    required p_army_soldiers       forward_phalanx          =2;//前锋部队
+    required p_army_soldiers       center_phalanx           =3;//中锋部队
+    required p_army_soldiers       back_phalanx             =4;//后卫部队
+    required int32                 is_out                   =5[default=0]; // 是否已经出战
+}
+
+// 方阵信息
+message p_map_phalanx{
+    required int32                  id                      =1[default=0];  //方阵id
+    required int32                  army_id                 =2[default=0];  // 部队id
+    required p_role_base            ower_info               =3;             // 部队拥有者信息
+    required int32                  status                  =4[default=0]; //部队状态
+    required p_point                cur_point               =5;            //当前坐标
+    required p_point                end_point               =6;            //目标坐标
+    repeated p_point                move_path               =7;            // 路径
+    required int32                  soldier_type            =8[default=0];            //兵种
+    required int32                  soldier_num             =9[default=0];            //兵量
+    required int32                  hp                      =10[default=0];           //当前血量
+    required int32                  max_hp                  =11[default=0];           // 血量上限
+}
+
+// 地图部队信息
+message p_map_army{
+    required int32                  army_id                 =1[default=0]; // 部队id
+    required p_role_base            ower_info               =2;            // 部队拥有者信息
+    required int32                  status                  =3[default=0]; //部队状态
+    required p_point                cur_point               =4;            //当前坐标
+    required p_point                target_point            =5;            //目标坐标
+    repeated p_point               move_path                =6;            // 路径
+    required p_army_soldiers       forward_phalanx          =7;//前锋部队
+    required p_army_soldiers       center_phalanx           =8;//中锋部队
+    required p_army_soldiers       back_phalanx             =9;//后卫部队
+}
+
+
+// 地图点
+message p_point{
+ required int32					x						= 1;				// 坐标x
+ required int32					y						= 2;				// 坐标y
+ required int32					z						= 3;				// 坐标z
+}
+
+
+
+// 玩家详情，登陆一次性请求，各种属性各种玩法信息
+message p_detail_role{
+    required int32               role_id                  =1[default=0];//角色id
+    required string              nick                     =2[default=""];//角色名字
+    required int32               lv                       =3[default=0];//等级
+    required int32               cur_exp                  =4[default=0];//当前经验
+    required int32               next_lv_exp              =5[default=0];//下一等奖需要的经验
+    required int32               coin                     =6[default=0];//金币
+    required int32               ingot                    =7[default=0];//钻石
+    required int32               vip_lv                   =8[default=0];//vip等级
+    required int32               camp                     =9[default=0];//阵营
+}
+
+//角色登陆信息
+message p_login_info{
+    required int32               role_id                  =1[default=0];//角色id
+    required string              nick                     =2[default=""];//角色名字
+    required int32               lv                       =3[default=0];//等级
+}
+
+
+//地图上的建筑信息
+message p_map_build{
+    required int32                build_id                 =1[default=0]; // 建筑id
+    required int32                type                     =2[default=0]; // 建筑类型
+    required int32                x                        =3[default=0];//坐标点x
+    required int32                y                        =4[default=0];//坐标点y
+    required p_role_base         ower_info                 =5;            // 拥有者信息
+}
+
+
+//玩家的建筑信息
+message p_build{
+    required int32                build_id                 =1[default=0]; // 建筑id
+    required int32                type                     =2[default=0]; // 建筑类型
+    required int32                x                        =3[default=0];//坐标点x
+    required int32                y                        =4[default=0];//坐标点y
+    repeated p_army               army_list                =5;           //部队列表
+}
+
+//战报：伤害信息
+message p_damage_info{
+    required int32                defender_hp              =1[default=0]; //受击者hp
+    required int32                damage                   =2[default=0]; //伤害值
+    required int32                state                    =3[default=0]; //伤害状态（1-普通；2-暴击）
+}
+
+//战报：攻击信息
+message p_attack_info{
+    required int32                defender_id              =1[default=0]; //受击者id
+    required int32                defender_type            =2[default=0]; //受击者类型
+    required int32                defender_x               =3[default=0]; //受击者坐标点x
+    required int32                defender_y               =4[default=0]; //受击者坐标点y
+    repeated p_damage_info        damage_info_list         =5;            //伤害信息列表
+}

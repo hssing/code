@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="ServerListUISkin" width="720" height="1140" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group width="400" height="210" verticalCenter="0" x="160">
+		<e:Rect scaleX="1" scaleY="1" alpha="1" fillAlpha="0.8" width="400" height="210" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="0" horizontalCenter="0" x="0" y="0" fillColor="0xffffff"/>
+		<e:Scroller width="340" height="200" anchorOffsetX="0" scaleX="1" scaleY="1" y="10" horizontalCenter="0">
+			<e:List id="serverList" x="1" y="-5" anchorOffsetX="0" width="340" itemRendererSkinName="ServerItemUISkin">
+			<e:layout>
+				<e:TileLayout horizontalAlign="left" verticalAlign="top" requestedColumnCount="2" verticalGap="6"/>
+			</e:layout>
+			</e:List>
+		</e:Scroller>
+	</e:Group>
+</e:Skin>

@@ -1,0 +1,13 @@
+{
+	"1":[{   
+			"btn":"btnHome",
+			"layer":"home",
+		    "isBottom":false
+		},  
+	    {   
+			"btn":"btnClose",
+			"layer":"panel",
+			"isBottom":false
+		}]
+}
+        

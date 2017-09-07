@@ -1,0 +1,68 @@
+
+{
+	"1001":{   
+			"name":"指挥中心", 
+			"type":1, 
+			"lv":1, 
+			"consume_resources_A":100, 
+			"consume_resources_B":100, 
+			"consume_resources_C":100, 
+			"upgrade_time":100, 
+			"upgrade_condition":[], 
+			"durability":100, 
+			"init_crit":[], 
+			"init_armor_penetration":[], 
+			"init_attack_speed":[], 
+			"init_holy_damage":[]
+		},  
+
+	"2001":{   
+			"name":"军营", 
+			"type":2, 
+			"lv":1, 
+			"consume_resources_A":100, 
+			"consume_resources_B":100, 
+			"consume_resources_C":100, 
+			"upgrade_time":100, 
+			"upgrade_condition":[], 
+			"durability":100, 
+			"init_crit":[], 
+			"init_armor_penetration":[], 
+			"init_attack_speed":[], 
+			"init_holy_damage":[]
+		},  
+
+	"3001":{   
+			"name":"科研所", 
+			"type":3, 
+			"lv":1, 
+			"consume_resources_A":100, 
+			"consume_resources_B":100, 
+			"consume_resources_C":100, 
+			"upgrade_time":100, 
+			"upgrade_condition":[], 
+			"durability":100, 
+			"init_crit":[], 
+			"init_armor_penetration":[], 
+			"init_attack_speed":[], 
+			"init_holy_damage":[]
+		},  
+
+	"4001":{   
+			"name":"兵工厂", 
+			"type":4, 
+			"lv":1, 
+			"consume_resources_A":100, 
+			"consume_resources_B":100, 
+			"consume_resources_C":100, 
+			"upgrade_time":100, 
+			"upgrade_condition":[], 
+			"durability":100, 
+			"init_crit":[], 
+			"init_armor_penetration":[], 
+			"init_attack_speed":[], 
+			"init_holy_damage":[]
+		}
+
+}
+        

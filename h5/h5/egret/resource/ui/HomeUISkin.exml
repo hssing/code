@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="HomeUISkin" width="720" height="1140" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<w:Config id="15ddeb28302"/>
+	<e:Group touchEnabled="false" right="0" left="0" top="0" bottom="0" cacheAsBitmap="false" touchThrough="false">
+		<e:Image id="imgHomeBg" source="homebg_png" bottom="0" top="0" left="0" right="0" touchEnabled="false" x="0" y="0" scaleX="1" scaleY="1" pixelHitTest="true" name="HOMEBG" visible="false"/>
+		<e:Group width="100%" height="154" x="0" anchorOffsetY="0" top="0" touchEnabled="false" y="0" scaleX="1" scaleY="1">
+			<e:Image x="0" y="0" source="main_up_bg_png" touchEnabled="false" pixelHitTest="true"/>
+			<e:Image x="20" y="17" source="main_head_png" touchEnabled="false" width="116" height="116"/>
+			<e:Image x="4" y="0" source="main_vip_icon_png"/>
+			<e:Image x="153" y="60" source="main_battle_icon_png"/>
+			<e:Label text="Lv1" x="102" y="113" size="21" bold="false" strokeColor="0x020202" border="false" stroke="2"/>
+			<e:Group width="96" height="46" x="180" y="5" anchorOffsetY="0" anchorOffsetX="0">
+			<e:Image x="1" verticalCenter="0" source="main_up_resources_bg_png"/>
+			<e:Image x="0" source="main_resources_1_png" verticalCenter="0" anchorOffsetX="19"/>
+			<e:Label text="20.1w" size="19" verticalCenter="0" horizontalCenter="0" textColor="0xe6d6c9"/>
+			</e:Group>
+			<e:Group width="96" height="46" x="297" y="5" anchorOffsetY="0" anchorOffsetX="0">
+			<e:Image x="1" verticalCenter="0" source="main_up_resources_bg_png"/>
+			<e:Image x="0" verticalCenter="0" anchorOffsetX="19" source="main_resources_2_png"/>
+			<e:Label text="20.1w" size="19" verticalCenter="0" horizontalCenter="0" textColor="0xe6d6c9"/>
+			</e:Group>
+			<e:Group width="96" height="46" x="416" y="5" anchorOffsetY="0" anchorOffsetX="0">
+			<e:Image x="1" verticalCenter="0" source="main_up_resources_bg_png"/>
+			<e:Image x="0" verticalCenter="0" anchorOffsetX="19" source="main_resources_3_png"/>
+			<e:Label text="20.1w" size="19" verticalCenter="0" horizontalCenter="0" textColor="0xe6d6c9"/>
+			</e:Group>
+			<e:Group width="96" height="46" x="533" y="5" anchorOffsetY="0" anchorOffsetX="0">
+			<e:Image x="1" verticalCenter="0" source="main_up_resources_bg_png"/>
+			<e:Image x="0" verticalCenter="0" anchorOffsetX="19" source="main_resources_4_png"/>
+			<e:Label text="20.1w" size="19" verticalCenter="0" horizontalCenter="0" textColor="0xe6d6c9"/>
+			</e:Group>
+			<e:Group width="100" height="110" x="15" y="180" scaleX="1" scaleY="1">
+			<e:Image source="main_queue_display_1_png" x="0" y="0"/>
+			<e:Image horizontalCenter="0" verticalCenter="0" source="main_1y_png"/>
+			<e:Image source="main_queue_display_bg_png" horizontalCenter="0" bottom="0"/>
+			<e:Label text="13:26:45" bottom="4" horizontalCenter="0.5" size="18" textColor="0xbcb5b5"/>
+			</e:Group>
+			<e:Group width="100" height="110" x="15" y="295" scaleX="1" scaleY="1">
+			<e:Image x="0" y="0" source="main_queue_display_2_png"/>
+			<e:Image horizontalCenter="0" verticalCenter="0" source="main_2y_png"/>
+			<e:Image source="main_queue_display_bg_png" horizontalCenter="0" bottom="0"/>
+			<e:Label text="13:26:45" bottom="4" horizontalCenter="0.5" size="18" textColor="0xBCB5B5"/>
+			</e:Group>
+			<e:Group width="100" height="110" x="15" y="410" scaleX="1" scaleY="1">
+			<e:Image x="0" y="0" source="main_queue_display_3_png"/>
+			<e:Image source="main_1y_png" horizontalCenter="0" verticalCenter="0"/>
+			<e:Image source="main_queue_display_bg_png" horizontalCenter="0" bottom="0"/>
+			<e:Label text="13:26:45" bottom="4" horizontalCenter="0.5" size="18" textColor="0xBCB5B5"/>
+			</e:Group>
+			<e:Group width="77" height="104" x="27" y="548.67" scaleX="1" scaleY="1" anchorOffsetY="0">
+			<e:Image x="0" y="0" source="main_worker_icon_png"/>
+			<e:Image width="77" x="0" y="77" source="main_queue_display_bg_png"/>
+			<e:Label text="3 / 5" y="80" size="20" horizontalCenter="0" stroke="2"/>
+			</e:Group>
+			<e:Button id="btnShop" label="" x="638" y="38">
+			<e:skinName>
+				<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="main_icon_shop_png" source.down="main_icon_shop_png"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+			</e:skinName>
+			</e:Button>
+			<e:Label text="商店" x="659" y="95" size="21" textColor="0xffe7a5"/>
+			<e:Label text="活动" x="653" y="203" size="22" textColor="0xffcc95" scaleX="1" scaleY="1" stroke="2"/>
+			<e:Button id="btnActivity" label="" x="638" y="133">
+			<e:skinName>
+				<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="main_icon_activity_png" source.down="main_icon_activity_png"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+			</e:skinName>
+			</e:Button>
+		</e:Group>
+		<e:Group width="100%" height="95" x="0" anchorOffsetY="95" anchorOffsetX="2" bottom="0" touchEnabled="false" y="1045" scaleX="1" scaleY="1">
+			<e:Image x="0" y="95" source="main_down_bg_png" anchorOffsetX="0" anchorOffsetY="110"/>
+			<e:Group width="120" height="95" x="0" y="0">
+			<e:Button id="btnTroops" scaleX="1" scaleY="1" horizontalCenter="0" top="0">
+				<e:skinName>
+				<e:Skin states="up,down,disabled">
+					<e:Image width="100%" height="100%" source="main_icon_troops_png" source.down="main_icon_troops_png" scaleX.down="0.8" scaleY.down="0.8"/>
+					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" scaleX.down="0.8" scaleY.down="0.8"/>
+				</e:Skin>
+				</e:skinName>
+			</e:Button>
+			<e:Label text="部队" bottom="8" horizontalCenter="0" size="22" fontFamily="Arial" stroke="2" textColor="0xedc090"/>
+			</e:Group>
+			<e:Group width="120" height="95" x="120" y="0">
+			<e:Button id="btnSoilder" scaleX="1" scaleY="1" horizontalCenter="0" top="0">
+				<e:skinName>
+				<e:Skin states="up,down,disabled">
+					<e:Image width="100%" height="100%" source="main_icon_rank_png" source.down="main_icon_rank_png" scaleX.down="0.8" scaleY.down="0.8"/>
+					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" scaleX.down="0.8" scaleY.down="0.8"/>
+				</e:Skin>
+				</e:skinName>
+			</e:Button>
+			<e:Label text="士兵" bottom="8" horizontalCenter="0" size="22" fontFamily="Arial" stroke="2" textColor="0xedc090"/>
+			</e:Group>
+			<e:Group width="120" height="95" x="240" y="0">
+			<e:Button id="btnGoods" scaleX="1" scaleY="1" horizontalCenter="0" top="0">
+				<e:skinName>
+				<e:Skin states="up,down,disabled">
+					<e:Image width="100%" height="100%" source="main_icon_goods_png" source.down="main_icon_goods_png" scaleX.down="0.8" scaleY.down="0.8"/>
+					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" scaleX.down="0.8" scaleY.down="0.8"/>
+				</e:Skin>
+				</e:skinName>
+			</e:Button>
+			<e:Label text="物品" bottom="8" horizontalCenter="0" size="22" fontFamily="Arial" stroke="2" textColor="0xedc090"/>
+			</e:Group>
+			<e:Group width="120" height="95" x="360" y="0">
+			<e:Button id="btnTask" scaleX="1" scaleY="1" horizontalCenter="0" top="0">
+				<e:skinName>
+				<e:Skin states="up,down,disabled">
+					<e:Image width="100%" height="100%" source="main_icon_task_png" source.down="main_icon_task_png" scaleX.down="0.8" scaleY.down="0.8"/>
+					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" scaleX.down="0.8" scaleY.down="0.8"/>
+				</e:Skin>
+				</e:skinName>
+			</e:Button>
+			<e:Label text="任务" bottom="8" horizontalCenter="0" size="22" fontFamily="Arial" stroke="2" textColor="0xedc090"/>
+			</e:Group>
+			<e:Group width="120" height="95" x="480" y="0">
+			<e:Button id="btnRecruit" scaleX="1" scaleY="1" horizontalCenter="0" top="0">
+				<e:skinName>
+				<e:Skin states="up,down,disabled">
+					<e:Image width="100%" height="100%" source="main_icon_recruit_png" source.down="main_icon_recruit_png" scaleX.down="0.8" scaleY.down="0.8"/>
+					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" scaleX.down="0.8" scaleY.down="0.8"/>
+				</e:Skin>
+				</e:skinName>
+			</e:Button>
+			<e:Label text="招募" bottom="8" horizontalCenter="0" size="22" fontFamily="Arial" stroke="2" textColor="0xedc090"/>
+			</e:Group>
+			<e:Group width="120" height="95" x="600" y="0">
+			<e:CheckBox label="" verticalCenter="0" horizontalCenter="0">
+				<e:skinName>
+				<e:Skin states="up,down,disabled">
+					<e:Image width="100%" height="100%" source="main_deploy_btn_png" source.down="main_deploy_btn_2_png"/>
+					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+				</e:skinName>
+			</e:CheckBox>
+			</e:Group>
+			<e:Group width="90" height="90" x="621.32" y="-108.69" scaleX="1" scaleY="1" touchEnabled="false">
+			<e:Image source="main_icon_map_bg_png" horizontalCenter="0" verticalCenter="0"/>
+			<e:Image source="main_icon_map_png" horizontalCenter="0" verticalCenter="0"/>
+			<e:Label text="地图" y="72" size="22" stroke="2" textColor="0xedc090" horizontalCenter="0"/>
+			</e:Group>
+			<e:Group id="chatGroup" width="0" height="0" x="0" y="0" scaleX="1" scaleY="1">
+			<e:Image x="0" y="0" scaleX="1" scaleY="1" source="main_chat_bg_png" anchorOffsetY="68"/>
+			<e:CheckBox label="" x="424.67" y="-64.01" scaleX="1" scaleY="1" anchorOffsetX="25.34" anchorOffsetY="0">
+				<e:skinName>
+				<e:Skin states="up,down,disabled">
+					<e:Image width="100%" height="100%" source="main_chat_btn_1_png" source.down="main_chat_btn_2_png"/>
+					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+				</e:skinName>
+			</e:CheckBox>
+			<e:Image id="headChat1" x="0" y="-53.32" source="main_chat_btn_1_png" scaleX="1" scaleY="1" anchorOffsetX="0"/>
+			<e:Image id="headChat2" x="0" y="-26.67" source="main_chat_btn_1_png" scaleX="1" scaleY="1" anchorOffsetX="0" anchorOffsetY="0"/>
+			</e:Group>
+		</e:Group>
+	</e:Group>
+</e:Skin>

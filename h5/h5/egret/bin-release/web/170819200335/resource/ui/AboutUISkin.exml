@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="aboutUISkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image height="100%" width="100%" x="0" y="0" source=""/>
+	<e:Image width="100%" y="0" height="100%" x="0" source=""/>
+	<e:Button id="btnClose" horizontalCenter="-18" verticalCenter="0" label=" 关闭">
+	</e:Button>
+	<e:Label multiline="true" text="开发商：白鹭时代\n版本号：1.0\n使用Egret引擎开发" 
+	         size="18" width="173" height="102" fontFamily="微软雅黑"
+	         stroke="1" strokeColor="0"  horizontalCenter="0.5" verticalCenter="-75"/>
+</e:Skin>

@@ -1,0 +1,5 @@
+{
+	"name": "egret",
+	"version": "5.0.0",
+    "typings": "protobuf.d.ts"
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="CreateRoleUISkin" width="720" height="1140" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image source="game_BG_jpg" horizontalCenter="0" verticalCenter="0" height="1136" width="852"/>
+	<e:Group width="500" height="300" bottom="145" horizontalCenter="0">
+		<e:Image width="220" height="44" x="140" y="150" source="common_bk3_png" fillMode="scale" scale9Grid="9,9,10,10" scaleX="1" scaleY="1"/>
+		<e:EditableText id="roleName" text="" x="149.04" y="157" size="25" width="200"/>
+		<e:Image x="140" y="89" source="pic_denglujeimian_s1_png" width="35" height="35"/>
+		<e:RadioButton id="radioBtnBoy" label="" x="140" y="89" selected="true">
+			<e:skinName>
+				<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="pic_denglujeimian_s1_png" source.down="pic_denglujeimiangou_s2_png"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+			</e:skinName>
+		</e:RadioButton>
+		<e:Image x="304" y="89" source="pic_denglujeimian_s1_png" width="35" height="35"/>
+		<e:RadioButton id="radioBtnGirl" label="" x="304" y="89">
+			<e:skinName>
+				<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="pic_denglujeimian_s1_png" source.down="pic_denglujeimiangou_s2_png"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+			</e:skinName>
+		</e:RadioButton>
+		<e:Button id="btnCreateRole" label="创建角色" y="234.85" horizontalCenter="0">
+			<e:skinName>
+				<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="btn_denglu_s1_png" source.down="btn_denglu_s1_png"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+			</e:skinName>
+		</e:Button>
+		<e:Label text="Boy" x="181" y="91" size="36"/>
+		<e:Label text="Girl" x="354" y="94" size="36"/>
+	</e:Group>
+</e:Skin>

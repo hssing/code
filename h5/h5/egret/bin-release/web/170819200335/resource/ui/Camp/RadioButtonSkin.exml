@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="Camp.RadioButtonSkin" states="up,down,disabled,upAndSelected,downAndSelected,disabledAndSelected" xmlns:e="http://ns.egret.com/eui" height="71" width="161">
+    <e:Group width="100%" height="100%" x="0" y="0">
+        <e:layout>
+            <e:HorizontalLayout verticalAlign="middle"/>
+        </e:layout>
+        <e:Image fillMode="scale" alpha="1" alpha.disabled="0.5" alpha.down="0.7"
+                 source="camp_bt_fuyong_s5_png"
+                 source.upAndSelected="camp_bt_fuyong_s6_png"
+                 source.downAndSelected="camp_bt_fuyong_s6_png"
+                 source.disabledAndSelected="radiobutton_select_disabled_png" width="161" height="71" scale9Grid="4,4,24,24"/>
+        <e:Label id="labelDisplay" size="20" textColor="0x707070"
+                 textAlign="center" verticalAlign="middle"
+                 fontFamily="Tahoma"/>
+    </e:Group>
+</e:Skin>

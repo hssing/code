@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" renderorder="right-up" width="30" height="30" tilewidth="180" tileheight="144" nextobjectid="1">
+ <tileset firstgid="1" name="caodi" tilewidth="180" tileheight="144" tilecount="25">
+  <image source="caodi.png" width="900" height="720"/>
+ </tileset>
+ <tileset firstgid="26" name="caodixianjie" tilewidth="180" tileheight="144" tilecount="45">
+  <image source="caodixianjie.png" width="900" height="1296"/>
+  <terraintypes>
+   <terrain name="xianjie" tile="8"/>
+  </terraintypes>
+  <tile id="0" terrain="0,0,0,"/>
+  <tile id="1" terrain="0,0,,0"/>
+  <tile id="2" terrain=",0,,0"/>
+  <tile id="3" terrain=",,,0"/>
+  <tile id="4" terrain=",,0,0"/>
+  <tile id="5" terrain="0,,0,0"/>
+  <tile id="6" terrain=",0,0,0"/>
+  <tile id="7" terrain=",0,,"/>
+  <tile id="8" terrain="0,0,0,0"/>
+  <tile id="9" terrain=",,0,"/>
+  <tile id="10" terrain="0,,,0"/>
+  <tile id="11" terrain=",0,0,"/>
+  <tile id="12" terrain="0,0,,"/>
+  <tile id="13" terrain="0,,,"/>
+  <tile id="14" terrain="0,,0,"/>
+  <tile id="15" terrain="0,0,0,"/>
+  <tile id="16" terrain="0,0,,0"/>
+  <tile id="17" terrain=",0,,0"/>
+  <tile id="18" terrain=",,,0"/>
+  <tile id="19" terrain=",,0,0"/>
+  <tile id="20" terrain="0,,0,0"/>
+  <tile id="21" terrain=",0,0,0"/>
+  <tile id="22" terrain=",0,,"/>
+  <tile id="23" terrain="0,0,0,0"/>
+  <tile id="24" terrain=",,0,"/>
+  <tile id="25" terrain="0,,,0"/>
+  <tile id="26" terrain=",0,0,"/>
+  <tile id="27" terrain="0,0,,"/>
+  <tile id="28" terrain="0,,,"/>
+  <tile id="29" terrain="0,,0,"/>
+  <tile id="30" terrain="0,0,0,"/>
+  <tile id="31" terrain="0,0,,0"/>
+  <tile id="32" terrain=",0,,0"/>
+  <tile id="33" terrain=",,,0"/>
+  <tile id="34" terrain=",,0,0"/>
+  <tile id="35" terrain="0,,0,0"/>
+  <tile id="36" terrain=",0,0,0"/>
+  <tile id="37" terrain=",0,,"/>
+  <tile id="38" terrain="0,0,0,0"/>
+  <tile id="39" terrain=",,0,"/>
+  <tile id="40" terrain="0,,,0"/>
+  <tile id="41" terrain=",0,0,"/>
+  <tile id="42" terrain="0,0,,"/>
+  <tile id="43" terrain="0,,,"/>
+  <tile id="44" terrain="0,,0,"/>
+ </tileset>
+ <tileset firstgid="71" name="liuge" tilewidth="180" tileheight="144" tilecount="35">
+  <image source="liuge.png" width="900" height="1008"/>
+  <tile id="5">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="blockType" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="106" name="sange101" tilewidth="180" tileheight="144" tilecount="24">
+  <image source="sange101.png" width="720" height="864"/>
+ </tileset>
+ <tileset firstgid="130" name="sange" tilewidth="180" tileheight="144" tilecount="30">
+  <image source="sange.png" width="900" height="864"/>
+ </tileset>
+ <tileset firstgid="160" name="qige" tilewidth="180" tileheight="144" tilecount="16">
+  <image source="qige.png" width="720" height="576"/>
+ </tileset>
+ <layer name="caodi" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2SQQqDQBAEmxiiMYm6RtT/v1RkG4RGD8KMXqYuBXUuIPOka2xYN6Wg33Tr0JQHXdEN22DYwKaU9I/+OzTlRX/pnm02bGBTPsgfJOQPJoe2x/pBh/zBiO0Ny6bEV/FVfHW+KfFVfGXRlPgqvrJoyt1frSR6cmhHdPTo2ILrWQDNQH1CEA4AAA==
+  </data>
+ </layer>
+ <layer name="xianeji" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC71X0UrEMBCc75BSpEKRO07ogyinYh7U//8kE8jgZLut52E2MGSbbDLJbrKbLgCWjMkgSftSv4lJ6i2dxcwxmT623WR8GDxmHETvOWOuYL/Wc5Vn03cwfLrmJ/jlXbg+N3R+K+fKQej+v66c85IyYG178m/t9z/KEe0ZoFx8e60NL+VN+Nkn5Z42LoX+tef/PoBX7cy6N+8RrW9Z97YzeblnylH+TWjvbpSdNV5F8DJuKGfvmFGKPVdElJ01z6UA3gHrXBkRNwas71Hhjri/Ceu3RYR/yaW27r1f2tnGyt73iHkhoc2HkXkwMi+c4b9PI85VQhsjS/2X/b5knASvGWPG3c4Yjc8asx7qHKPMpTX7yvct/HfwW9UZRfdkxiS0fvb+E9QmyqFt3r+CvStem4613Kpv372ezXQe765OTr/KNm/YNdp12jexN86zmcp7/1Zb/vHsvrcmyt9jZD+VEA4AAA==
+  </data>
+ </layer>
+ <layer name="qige" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC7VWWwrDMAzr/c/RJVt3yTFwIRjJz1Q/gRLJqu04OY7nMR/ksT1D1m+SG+GxPS9ZrySX8WZgzynrx4iJuIy3+jvFA9N+GzGZ/gQ87W/IHqsGCHe+tD7KufYXqR3CIN8tvdtfpHYZ7YyeVTsETzuiV50DnralGznPUa2orlX76szxdK36ZGaOpYu8o/PM9LP9/tdF3lm+LH3WQ+ifkHcvX5nz5M2jCb514c0j7Sk7HxA8/9WZ23kXVHOKaqZjeOc4m1OUHx2jmkMGlB8dY2dfrljzw2Ls6MuMjxXV+6vDzd5fFjfqodNT6C23emDo9FT3Ldfpqe5bbgd2nokf+QrkgRAOAAA=
+  </data>
+ </layer>
+ <layer name="sange101" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC9WV2QoCMQxF870KCu4LjL8uAy2EkGbviOcl0CUtNxsAwBtynJV9zv+r2U/wzVOz98G+5H8Jvtm5KftZ/1m0eMxAi4eHK7O2F87TeHD3NX+XZp9obdfs0eCPu08Z+XswZw+GN6X7GX8jsn0iQrZPaEi5MquOLblCqdLekiudjPa4viJ/x9pb6nkF11c2b7wxwvWVzRtPjDz8+1zwos3praH6SzNthLUWOlR/z0zrRPrVCtU/MoNoLUQ0yxLRrIqKuf1LvPlaQTRfK5jVu7fiC4axoEQQDgAA
+  </data>
+ </layer>
+ <layer name="liuge" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC9WW2QoCMQxF83kKLriAgo6OC/r/fyDFFDqlSW7a+uB5uWJtZ8hpU4mI5vRlTVOu5AedM+Ncce45L5xPY/6QfEbnRJacu+z7hzHvzHl3zIksOLecR+F3uYsT543zDT4vZcN5EMYlFyPny/EszX9pTHKRI+3RgOa/NIa6kOqSovkvjVkuImhdeoLWJUXzkmL1BbQuAcRLwNsXkN6FekH7AvKONV4Q0neUPHq8lBiUMdRjjuWp1KdzvOfL8oT06VqPlqeRU+vTkkfk/NZ66rFe7z6IrFfjSduTnvU85w3pHa3nVwLtbz1A7xgPVg/pvecD6H3UuudL9bJ8td4xLfVq3aP/8l+pF78604EPjDeTbBAOAAA=
+  </data>
+ </layer>
+ <layer name="sange" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGNxgAgH+YABDwY3IoHugHQAFgz2c6AUGS3zgAzMZ6B9fM6D0PCLUUjsM51LZvOEI6JEeZg6AeaSkO2IAKeZRO92N9HRM7fRDDBjM5RYx4UGKm4hRS+38hAtgK4/okf7pmcZgdtE6TJH9hG4XpWGKK7yw+QmfXaSkU0LhRct0MpTKYADppGolEA4AAA==
+  </data>
+ </layer>
+</map>

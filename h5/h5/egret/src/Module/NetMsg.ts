@@ -1,0 +1,67 @@
+class NetMsg extends events.Base {
+
+    public proto: string = "proto_proto";
+    public modId: number;
+    public subIds: any;
+    private netCenter: NetCenter;
+    private nameIds: any;
+
+    public init(manager: NetCenter): void {
+        this.netCenter = manager;
+
+        this.nameIds = {};
+        for (let k in this.subIds) {
+            let name = this.subIds[k];
+            this.nameIds[name] = parseInt(k);
+        }
+    }
+
+    public on(name: string, event: events.Event): void {
+        super.on(name, event);
+    }
+
+    public getModId(): number {
+        return this.modId;
+    }
+
+    public send(name: string, obj: Object = {}): any {
+        console.log(`+++++++ Send Msg: [${this["__class__"]} : ${name}] +++++++`, obj);
+
+        let subId = this.nameIds[name];
+        let buff = this.pack(subId, obj);
+        let mainId = this.modId * 100 + subId;
+        return this.netCenter.sendMessage(mainId, buff);
+    }
+
+    public onRecv(mainId: number, data: any) {
+        let subId = Math.floor(mainId % 100);
+        let obj = this.unpack(subId, data);
+
+        console.log(`======= Recv Msg: [${this["__class__"]} : ${this.subIds[subId]}] =======`, obj);
+
+        this.fireEvent(this.subIds[subId], obj);
+    }
+
+    public pack(subId: number, obj: Object): any {
+        let data = RES.getRes(this.proto);
+        let root = protobuf.parse(data, { keepCase : true }).root;
+        var parser = root.lookupType(this.subIds[subId]);
+
+        var errMsg = parser.verify(obj);
+        if (errMsg) {
+            throw new Error(errMsg);
+        }
+
+        var message = parser.create(obj);
+        let int8Arr = parser.encode(message).finish();
+        let buff = int8Arr.buffer.slice(int8Arr.byteOffset, int8Arr.byteOffset + int8Arr.byteLength);
+        return buff;
+    }
+
+    public unpack(subId: number, buff: ArrayBuffer): any {
+        let data = RES.getRes(this.proto);
+        let root = protobuf.parse(data, { keepCase : true }).root;
+        var parser = root.lookupType(this.subIds[subId]);
+        return parser.decode(new Uint8Array(buff));
+    }
+}

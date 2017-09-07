@@ -1,0 +1,64 @@
+
+{
+	"1":{   
+			"type":1, 
+			"exist":1, 
+			"level_limit":1, 
+			"size":[1,1], 
+			"upgrade":1, 
+			"num_limit":10, 
+			"move":0, 
+			"reform":0, 
+			"repair":1, 
+			"dismantle":0, 
+			"turn":0, 
+			"attack":0
+		},  
+
+	"2":{   
+			"type":2, 
+			"exist":1, 
+			"level_limit":1, 
+			"size":[1,1], 
+			"upgrade":1, 
+			"num_limit":10, 
+			"move":0, 
+			"reform":0, 
+			"repair":1, 
+			"dismantle":0, 
+			"turn":0, 
+			"attack":0
+		},  
+
+	"3":{   
+			"type":3, 
+			"exist":0, 
+			"level_limit":1, 
+			"size":[1,1], 
+			"upgrade":1, 
+			"num_limit":10, 
+			"move":0, 
+			"reform":0, 
+			"repair":1, 
+			"dismantle":0, 
+			"turn":0, 
+			"attack":0
+		},  
+
+	"4":{   
+			"type":4, 
+			"exist":0, 
+			"level_limit":1, 
+			"size":[1,1], 
+			"upgrade":1, 
+			"num_limit":10, 
+			"move":0, 
+			"reform":0, 
+			"repair":1, 
+			"dismantle":0, 
+			"turn":0, 
+			"attack":0
+		}
+
+}
+        

@@ -1,0 +1,28 @@
+
+{
+	"1":{   
+			"name":"盾牌兵", 
+			"type":1, 
+			"fight_type":1 
+		},  
+
+	"2":{   
+			"name":"砍刀兵", 
+			"type":1, 
+			"fight_type":1 
+		},  
+
+	"3":{   
+			"name":"机枪兵", 
+			"type":1, 
+			"fight_type":2 
+		},  
+
+	"4":{   
+			"name":"战车", 
+			"type":2, 
+			"fight_type":3 
+		}  
+
+}
+        
