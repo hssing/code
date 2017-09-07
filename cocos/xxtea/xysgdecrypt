@@ -1,0 +1,29 @@
+#!/bin/bash
+function usage
+{
+    cat<<EOF
+usage : $0 file1 file2 ...
+EOF
+}
+
+if [ "$#" == "0" ]
+then
+	usage
+fi
+
+while [ "$#" != "0" ]
+do
+    if [ ! -z "$1" ]
+    then
+	xxtea -i "$1" -o "$1" -m decrypt -k MHXJ
+	file="$1"
+	fileZip="${file%.*}.zip"
+	mv "$file" "$fileZip"
+	pushd `dirname $fileZip` >/dev/null
+	unzip -j `basename "$fileZip"`
+	popd > /dev/null
+	rm "$fileZip"
+    fi
+    
+    shift
+done
