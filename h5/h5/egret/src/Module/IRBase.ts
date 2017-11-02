@@ -10,7 +10,7 @@ class IRBase extends UIBase implements eui.IItemRenderer {
     }
 
     // eui.IItemRenderer
-    data;
+    data: any;
     selected: boolean;
     itemIndex: number;
 }

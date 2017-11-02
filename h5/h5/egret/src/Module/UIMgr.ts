@@ -1,5 +1,6 @@
 namespace UIMgr {
 
+    type LayerType = "scene"|"panel"|"load"|"mask"|"home"|"guide"|"effect";
     let root: eui.UILayer;
     let layers: any;
 
@@ -7,9 +8,9 @@ namespace UIMgr {
         _init(root);
     }
 
-    export function getHome(): any {
+    export function getHome(): ui.Home {
         let layer = getLayer("home") as eui.UILayer;
-        return layer.getChildAt(0);
+        return layer.getChildAt(0) as ui.Home;
     }
 
     export function getWorld(): ui.World {
@@ -22,18 +23,34 @@ namespace UIMgr {
         return layer.getChildAt(0) as ui.Guide;
     }
 
-    export function getLayer(name: string): eui.UILayer {
+    export function getLayer(name: LayerType): eui.UILayer {
         return layers[name];
     }
 
-    export function open(viewCls: any, layerName: string = "panel", ...data): any {
+    function getLoadingUI(): ui.ResLoadingUI {
+        let layer = getLayer("load") as eui.UILayer;
+        return layer.getChildAt(0) as ui.ResLoadingUI;
+    }
+
+    export async function open(viewCls: any, layerName: LayerType = "panel", ...data): Promise<any> {
+        if (viewCls.CUSTOM && viewCls.CUSTOM.resGroup) {
+            let loadingUI = getLoadingUI();
+            loadingUI.visible = true;
+            for (let name of viewCls.CUSTOM.resGroup) {
+                if (!RES.isGroupLoaded(name)) {
+                    await loadingUI.loadGroup(viewCls.CUSTOM.resGroup);
+                }
+            }
+            loadingUI.visible = false;
+        }
+
         let layer = getLayer(layerName);
         let view = new viewCls(...data);
         layer.addChild(view);
-        return view;
+        return new Promise((resolve, reject) => resolve(view));
     }
 
-    export function openOnce(viewCls: any, layerName: string = "panel", ...data): any {
+    export function openOnce(viewCls: any, layerName: LayerType = "panel", ...data): Promise<any> {
         let layer = getLayer(layerName) as eui.UILayer;
         for(let i = 0; i < layer.numChildren; i++) {
             let child = layer.getChildAt(i);
@@ -42,7 +59,14 @@ namespace UIMgr {
             }
         }
 
-        open(viewCls, layerName, ...data);
+        return open(viewCls, layerName, ...data);
+    }
+
+    export function createView<T extends UIBase>(viewCls: new (...data) => T, layerName: LayerType = "panel", ...data): T {
+        let layer = getLayer(layerName);
+        let view = new viewCls(...data);
+        layer.addChild(view);
+        return view;
     }
 
     export function close(view: any): void {
@@ -51,7 +75,7 @@ namespace UIMgr {
         }
     }
 
-    export function closeAll(viewCls: any, layerName: string = "panel"): any {
+    export function closeAll(viewCls: any, layerName: LayerType = "panel"): any {
         let layer = getLayer(layerName) as eui.UILayer;
         let removed = [];
         for(let i = 0; i < layer.numChildren; i++) {    
@@ -96,6 +120,7 @@ namespace UIMgr {
         for (let key in layers) {
             let layer = layers[key];
             layer.touchThrough = true;
+            layer.touchEnabled = false;
             root.addChild(layer);
             [layer.width, layer.height] = [root.width, root.height];
         }

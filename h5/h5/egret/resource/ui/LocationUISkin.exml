@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="LocationUISkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" xmlns:ui="ui.*">
+	<w:Declarations>
+		<tween:TweenGroup id="busy">
+			<tween:TweenItem target="{image}">
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{0}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:To duration="2000">
+					<tween:props>
+						<e:Object rotation="{360}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<e:Group width="245" height="173" scaleX="1" scaleY="1" horizontalCenter="0" verticalCenter="0">
+		<e:Image source="frame_tanchuang_s1_png" horizontalCenter="0" verticalCenter="0"/>
+		<e:Label text="跳转到：" right="0" left="0" textAlign="center" bold="true" fontFamily="Arial" x="-120" y="-54" scaleX="1" scaleY="1" border="false" borderColor="0xffffff" strokeColor="0x000000" stroke="2" textColor="0xffffff" size="36"/>
+		<e:Button id="btnOK" label="确定" scaleX="1" scaleY="1" x="30" y="149">
+		<e:skinName>
+			<e:Skin states="up,down,disabled">
+			<e:Image source="btn_denglu_s1_png" source.down="btn_denglu_s1_png" />
+			<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" />
+			</e:Skin>
+		</e:skinName>
+		</e:Button>
+		<e:Image width="62" height="34" y="55" source="common_bk3_png" fillMode="scale" scale9Grid="9,9,10,10" scaleX="1" scaleY="1" x="51"/>
+		<e:Label text="X:" x="19" y="55" scaleX="1" scaleY="1"/>
+		<e:Image width="62" height="34" y="55" source="common_bk3_png" fillMode="scale" scale9Grid="9,9,10,10" scaleX="1" scaleY="1" x="158"/>
+		<e:Label text="Y:" x="129" y="55" scaleX="1" scaleY="1"/>
+		<e:EditableText id="lbX" text="0" y="59" size="25" width="80" textAlign="center" x="41" scaleX="1" scaleY="1"/>
+		<e:EditableText id="lbY" text="0" y="59" size="25" width="80" textAlign="center" x="150" scaleX="1" scaleY="1"/>
+	</e:Group>
+</e:Skin>

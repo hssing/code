@@ -84,8 +84,14 @@ import string
 
 def reGenerateConfig(project_path):
 
+    web_path = os.path.join(project_path, "bin-release/web")
+    print(web_path)
+    fileList = []
+    for item in os.listdir(web_path):
+        fileList.insert(len(fileList), item)
+
     resource_path = os.path.join(project_path, "resource")
-    publish_path = os.path.join(project_path, "bin-release", "web", "myrelease")
+    publish_path = os.path.join(project_path, "bin-release", "web", max(fileList))
     current_dir = os.getcwd()
     
     os.chdir(project_path)
@@ -108,7 +114,10 @@ def reGenerateConfig(project_path):
         raise Exception("Failed to re generate Config.json")
 
     os.chdir(project_path)
-    os.removedirs("resource")
+    if sys.platform == 'win32':
+        os.removedirs("resource")
+    else:
+        os.unlink("resource")
     os.rename("resource1", "resource")
     os.chdir(current_dir)
 

@@ -2,14 +2,30 @@ namespace logic {
 
     export class Home extends Logic {
 
+        public static EVT = utils.Enum(
+        [
+            "REFRESH_ARMY_INFO",
+        ]);
+
+        private armyInfos = {};
+
         public constructor() {
             super();
 
-            LogicMgr.get(logic.Login).on(logic.Login.EVT.START, this.Event("onLogic"));
+            NetMgr.get(msg.Army).on("m_army_get_own_map_army_pos_toc", this.Event("onGetArmyInfo"));
         }
 
-       protected onLogic(param1, param2) {
-            console.log("onLogic Home", param1, param2);
+        public udpateArmyInfo() {
+            NetMgr.get(msg.Army).send("m_army_get_own_map_army_pos_tos");
+        }
+
+        protected onGetArmyInfo(data) {
+            this.armyInfos = data.army_pos_list;
+            this.fireEvent(Home.EVT.REFRESH_ARMY_INFO, this.armyInfos);
+        }
+
+        public getArmyInfos(): any {
+            return this.armyInfos;
         }
 
     }

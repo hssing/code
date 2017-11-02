@@ -7,13 +7,10 @@ namespace mo {
         public constructor(map: TMap, name: string, layerIdx: number, camera: Camera, data: any) {
             super(map, name, layerIdx, data);
 
-			let viewSize = camera.getViewSize();
+            let viewSize = {width : 1000, height: 2000};
 		    this.strategy = new Tile(viewSize, data.bgInfo.size, this.node, ()=>{
-                let gp = new eui.Group();
                 let sp = new eui.Image(data.bgInfo.url);
-                gp.addChild(sp);
-                gp.alpha = 0.5;
-                return gp;
+                return sp;
             })
         }
 
@@ -21,7 +18,7 @@ namespace mo {
             super.dispose();
         }
 
-        public viewportChanged(x: number, y: number, info: any): void {
+        public viewportChanged(x: number, y: number, info?: any): void {
             this.strategy.update(x, y);
         }
     }

@@ -2,15 +2,18 @@ namespace ui {
 	
 	export class CreateRole extends UIBase {
 
-		private btnCreateRole:eui.Button;
-		private radioBtnBoy:eui.RadioButton;
-		private radiobtnGirl:eui.RadioButton;
-		private roleName:eui.EditableText;
+		private btnCreateRole: eui.Button;
+		private radioBtnBoy: eui.RadioButton;
+		private radiobtnGirl: eui.RadioButton;
+		private roleName: eui.EditableText;
+		private imgHead: eui.Image;
 
 		private static CUSTOM = {
             skinName : "resource/ui/CreateRoleUISkin.exml",
             binding : {
                 ["btnCreateRole"] : { event : egret.TouchEvent.TOUCH_TAP, method : "onBtnCreateRole", },
+				["radioBtnGirl"] : { method : "onRadioBtnGirl", },
+				["radioBtnBoy"] : {method : "onRadioBtnBoy"},
             },
         }
 
@@ -29,8 +32,16 @@ namespace ui {
             this.radioBtnBoy = null;
             this.radiobtnGirl = null;
 			this.roleName = null;
-            UIMgr.open(ui.GameLoadingUI, "load");
+            UIMgr.open(ui.GameLoadingUI);
         }
+
+		protected onRadioBtnGirl() {
+			this.imgHead.source = "icon_denglujeimian_s2_png";
+		}
+
+		protected onRadioBtnBoy() {
+			this.imgHead.source = "icon_denglujeimian_s1_png";
+		}
 
 		protected onBtnCreateRole() {
 			if(this.roleName.text.length === 0 || this.roleName.text === "") { 

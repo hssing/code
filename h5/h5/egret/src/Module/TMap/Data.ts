@@ -1,12 +1,22 @@
 namespace mo {
-    
+
+    const CFG_MASK = 
+    {
+        land   : 0b00000000000000000000000000001111,
+        country: 0b00000000000000000000000111110000,
+        block  : 0b00000000000000000001111000000000,
+        buff   : 0b00011111111111111110000000000000,
+        remain : 0b11100000000000000000000000000000,
+    }
+
     export class Data {
 
-        private data: any;
+        protected data: any;
+        protected tilesets: any;
+
         private cellsData: any;
         private info: any;
         private coordinate: Coordinate;
-        private tilesets: any;
         private islands: any;
         private layers: any;
         private cellDatas: any;
@@ -28,7 +38,7 @@ namespace mo {
                 info        : this.info,
                 layers      : this.layers,
                 tilesets    : this.tilesets,
-                bgInfo      : { url : "resource/assets/Map/zwsy.png", size : {w : 256, h : 256}, },
+                bgInfo      : { url : "mapbackground_png", size : {w : 256, h : 256}, },
             };
         }
 
@@ -71,8 +81,14 @@ namespace mo {
                 offsetX : offsetX,
                 offsetY : offsetY,
             };
+            tile["key"] = this.getTileKey(tile);
 
             return tile;
+        }
+
+        public getTileKey(tile: any): any {
+            let rect = tile.rect;
+            return `${tile.image}:${rect.x}-${rect.y}`;
         }
         
         private loadTilesets(): void {
@@ -111,11 +127,11 @@ namespace mo {
         }
 
         public getResSubIdxByIndex(index: number): number {
-            // let i = Math.floor(index / this.data.clipRange);
             let [x, y] = this.coordinate.index2cell(index);
             let x1 = Math.floor(x / this.data.clipRange);
             let y1 = Math.floor(y / this.data.clipRange);
             let cols = Math.ceil(this.data.width/this.data.clipRange);
+
             let i = this.coordinate.cell2index(x1, y1, cols);
             i = Math.min(this.data.subFiles.length - 1, i);
             i = Math.max(0, i);
@@ -171,12 +187,13 @@ namespace mo {
                 if (isLoading) { return; }
 
                 let file = this.getResFullPathBySubIdx(idx);
+
                 RES.getResByUrl(file, (data) => {
                     for (let func of this.loadingList[idx]) {
                         func(data);
                     }
                     this.loadingList[idx] = [];
-                }, this, "json");
+                }, this, "jzip");
             } );
         }
 
@@ -190,30 +207,65 @@ namespace mo {
         public getCellTile(index: number, layerIdx: number): any {
             let cellsData = this.getCellDataByIndex(index);
             if (!cellsData || !cellsData[layerIdx]) { return undefined; }
-            let tileId = cellsData[layerIdx][index];
-            if (!tileId || tileId === 0) { return undefined; }
 
+            let tileId = cellsData[layerIdx][index];
+            if (!tileId) { return undefined; }
             return this.tilesets.tiles[tileId];
+        }
+
+        public getTileIdByName(index: number, layerName: string): any {
+            let idx = this.layers.indexOf(layerName);
+            if (idx < 0) { return undefined; }
+            return this.getTileId(index, idx);
+        }
+
+        public getTileId(index: number, layerIdx: number): any {
+            let cellsData = this.getCellDataByIndex(index);
+            if (!cellsData || !cellsData[layerIdx]) { return undefined; }
+            let tileId = cellsData[layerIdx][index];
+            return tileId;
+        }
+
+        public getLayerIdxByName(name: string): number {
+            let idx = this.layers.indexOf(name);
+            return idx;
+        }
+
+        public getCellCfgTile(index: number, layerIdx: number): any {
+            let tileId = this.getTileId(index, layerIdx);
+            let lcfg = DBRecord.fetchId("LandPieceConfig_json", tileId);
+            if (!lcfg || lcfg.is_change_appearance !== 1) { return undefined; }
+
+            let tcfg = this.getCellTypeCfgTile(index);
+            if (!tcfg) { return undefined; }
+
+            return {key : `${tileId}_${tcfg.img}`, lcfg, tcfg};
+        }
+
+        public getCellTypeCfgTile(index: number): any {
+            let mask = this.getTileIdByName(index, "config_map_grid");
+            if (!mask) { return undefined; }
+            let tcfg = DBRecord.fetchId("LandTypeConfig_json", mask & CFG_MASK["land"]);
+            return tcfg;
         }
 
         private loadLayers(): void {
             this.layers = [];
-            // this.layers.push("background");
-
             for (let layer of this.data.layers) {
                 let name = layer["name"];
                 this.layers.push(name);
             }
         }
 
+        public getLayerType(idx: number): string {
+            return this.data.layers[idx]["type"];
+        }
+
         // 阻挡数据单独分离出一个文件
-        public isBlocked(index, name: string): boolean {
-            // for (let layer of this.data.layers) {
-            //     if (name === layer["name"]) {
-            //         return !!layer.data[index];
-            //     }
-            // }
-            return false;
+        public isBlocked(cpos: CPoint, layerName: string): boolean {
+            let index = this.coordinate.cell2index(cpos.x, cpos.y);
+            let tileId = this.getTileIdByName(index, layerName);
+            return !!tileId;
         }
     }
     

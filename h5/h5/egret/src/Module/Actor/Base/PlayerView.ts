@@ -5,25 +5,53 @@
  * 人物类
  *
  */
+enum BULLET_FLY_TYPE {
+    LINE = 2,
+}
+
+
+enum FIGHT_TYPE {
+    TYPE_1 = 1,
+    TYPE_2 = 2,
+    TYPE_3 = 3,
+    TYPE_4 = 4,
+}
+
+
+enum ACTION_NAME {
+    IDLE = 0,
+    RUN = 1,
+    ATTACK = 2 
+}
+
+enum ACTION_DIR {
+    UP = 0,
+    UP_45 = 1,
+    RIGHT = 2,
+    DOWN_45 = 3,
+    DOWN = 4,
+    DOWN_45_REVERSE = 5,
+    RIGHT_REVERSE = 6,
+    UP_45_REVERSE = 7
+}
+
 
 class PlayerView extends  egret.DisplayObjectContainer {
-
-    public vo:PlayerVO = new PlayerVO();
+    public vo:PlayerVO ;// = new PlayerVO();
     public vo_temp:PlayerVO = new PlayerVO();
     protected _mcData:any;
     protected _mcTexture:egret.Texture;
     protected role:egret.MovieClip;
     protected role2:egret.MovieClip;
-    protected mcDataFactory;
+    public mcDataFactory;
     public is8Dir = true; //测试8 个方向  false-12方向  true-8方向
 
-    protected acName:string[] = ["idle","run","attack"];
+    public acName:string[] = ["idle","run","attack"];
 
     //6个方向
-    protected acDir:string[] = ["up","up_45","right",
+    public acDir:string[] = ["up","up_45","right",
                                  "down_45","down","down_45",
                                  "right","up_45",];
-
 
     protected acNameIndex:number = 0; //当前动作
     protected acDirIndex:number = 0;  //当前方向
@@ -32,6 +60,7 @@ class PlayerView extends  egret.DisplayObjectContainer {
 
     protected moveSpeed:number = 0.25; //移动速度
     protected moveTimeOneCell:number = 2000; //毫秒
+    protected useTimeFixation:number = 0;
     protected moveSpeedX:number = 0;
     protected moveSpeedY:number = 0;
     protected moveDisX:number = 0 ; //x y轴移动距离
@@ -41,134 +70,94 @@ class PlayerView extends  egret.DisplayObjectContainer {
     protected nameText:egret.TextField ; //
     protected towPointDis:number; //行走两点距离
     protected towPointCellNum:number; //行走两点间格子数
-
-    protected actions:any[] = []; //动画单位数组
-
+    protected xiexianDis:number; //斜边长
+    protected speedUp:number = 10; //加速
+    //
+    public actions:any[] = []; //动画单位数组
+    protected shadows:any[] = []; //脚底阴影
+    
     //服务返回行走路径
     protected moveIndex:number = 0; 
     protected move_path:any[] = [];
-
+    protected move_info:any ;
+    protected cur_point:any ;
+    
     //行军跟随 
-    protected points: Mpoint[] = [];
-    protected queueFollowMaxFrameLength: number = 150; //队列跟随最大帧数     
-    protected saveAllFollowFrame: number = 200 ; //跟随最大帧
+    public points: Mpoint[];
+    protected queueFollowMaxFrameLength: number = 70; //队列跟随最大帧数     
+    protected saveAllFollowFrame: number = 170 ; //跟随最大帧
     protected frontRole: RoleView ;// 跟随前面的对象
 
     //战斗
     protected progressBar:ProgressBar; //血条
-    protected attackView:RoleView; //攻击对象
+    // protected attackView:RoleView; //攻击对象
 
     public static static_index:number = 0; //临时
 
     //data服务器返回数据
     public data:any ; 
 
-    //回调方法
-    private goToTargetCallBack:Function = undefined;
-
     // private timer: egret.Timer
     private shape:egret.Shape;
     private root:any;
+    private manager: world.Manager;
 
     protected info:any;  //构建地图数据
-    public constructor(root?:any) {
-        super();
 
+    private  fightMgr:Fight.FightMgr; 
+    private playerId:number ; //角色id
+
+    private uiInstance:any;
+    public constructor(root?:any,manager?: world.Manager,modelId?:any,vo?:any,uiInstance?:any) {
+        super();
         this.width = mo.TMap.getMainData().getResult().info.cw;
         this.height = mo.TMap.getMainData().getResult().info.ch;
         this.anchorOffsetX = this.width / 2;
         this.anchorOffsetY = this.height / 2;
-
+        this.vo = vo;
+        this.vo.setModelId(modelId);
+        this.uiInstance = uiInstance;
         this.init();
         this.root = root;
+        this.manager = manager;
         PlayerView.static_index++;
+        this.points = [];
+
+        this.fightMgr = Fight.FightMgr.getFightMgrIns();
 
 
         this.shape =  new egret.Shape();
         this.root.addChild(this.shape);
-
-        // this.timer = new egret.Timer(3000, 0);
-        // this.timer.addEventListener(egret.TimerEvent.TIMER, this.timerFunc, this);       
-        // this.timer.start();
     }
 
-    // private timerFunc(event: egret.Event) {
-    //     // console.log(this.vo.getId() +" == 我是定时器......");
+    // protected isChange = false;
+    public playAttack(data: any , dstPos:any): void {
+        //如果是移动状态 。则暂时不切换到战斗 
+                this.fightMgr.playAttack(data,this,this.manager,dstPos); 
+        // }else {
+        //     console.log(this.vo.getId() + " == ///is ACTION_NAME.RUN");
+        // }
+        // let cfg = RES.getRes("SkillConfig_json");
+        // let info = cfg[data.skill_id];
         
-    //     //如果有攻击目标
-    //     if (this.getAttackView()) {
+        // g_PlayerView_index++;
+        // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>> = " + g_PlayerView_index);
+        // Singleton(Timer).after(info.delay?info.delay:100, world.g_world_view.Event("aaa" + g_PlayerView_index, ()=>{this.onDelayAttack(data,dstPos)}));
+    }
 
-    //         for (let i = 0 ; i < this.actions.length ; i++) {
-    //             let action = this.actions[i];
-                
-    //             if (action.hasEventListener(egret.Event.LOOP_COMPLETE)){
-    //                 console.log("存在事件...");
-    //             }else{
-    //                 console.log("不存在事件...");
-    //                 action.addEventListener(egret.Event.LOOP_COMPLETE,(e)=>{ 
-    //                     //寻找被击打目标。执行掉血
+    private onDelayAttack(data: any , dstPos:any): void {
+         this.fightMgr.playAttack(data,this,this.manager,dstPos);
+    }  
 
-    //                     this.setAcNameIndex(0);
-    //                     action.movieClipData = this.mcDataFactory.generateMovieClipData(this.acName[this.acNameIndex] + "_" + this.acDir[this.acDirIndex]);
-    //                     action.gotoAndPlay(1,-1);    
-    //                 } , this);                    
-    //             }
-
-    //         }
-      
-    //        this.setAcNameIndex(2);
-    //        this.playAction();  
-    //     }
-    // }     
-
-    public atttack(attack_info_list) {
-            // console.log(this.vo.getId() +" == 我是定时器......");
-            
-            //如果有攻击目标
-            if (this.getAttackView()) {
-
-                let damage_info_list = attack_info_list.damage_info_list
-                let defender_hp = damage_info_list.defender_hp;
-                let damage = damage_info_list.damage;
-
-                for (let i = 0 ; i < this.actions.length ; i++) {
-                    let action = this.actions[i];
-                    
-                    if (action.hasEventListener(egret.Event.LOOP_COMPLETE)){
-                        console.log("存在事件...");
-                    }else{
-                        console.log("不存在事件...");
-                        action.addEventListener(egret.Event.LOOP_COMPLETE,(e)=>{ 
-                            //寻找被击打目标。执行掉血
-
-                            this.setAcNameIndex(0);
-                            action.movieClipData = this.mcDataFactory.generateMovieClipData(this.acName[this.acNameIndex] + "_" + this.acDir[this.acDirIndex]);
-                            action.gotoAndPlay(1,-1);    
-                        } , this);                    
-                    }
-
-                }
-                
-                let targetView = this.getAttackView();
-                targetView.hurtAndRefresh(damage);
-                targetView.vo.setCurHp(defender_hp);
-                Prompt.popTip(targetView.getVO().getId() + "掉血" + damage);
-
-                this.setAcNameIndex(2);
-                this.playAction();  
-            }
-     }     
-
+    public playDefend(defInfo: any,skill_id?:any): void {
+        this.fightMgr.playDefend(defInfo,this,this.manager,skill_id)
+    }
 
     //初始化 角色数据
     public updateVO(vo: any,temp_vo?:any) { 
-        //  this.vo.setId(vo.role_id);
-
-        //  this.vo.setXY(vo.x,vo.y);
-         this.vo = vo;
-         this.vo_temp = temp_vo;
          [ this.x ,this.y ] =  this.vo.getXY();
     }
+
 
     public getVO() {
         return this.vo;
@@ -202,14 +191,6 @@ class PlayerView extends  egret.DisplayObjectContainer {
         return this.acNameIndex;
     }
 
-    public setAttackView(attackView: RoleView) {
-        this.attackView = attackView;
-    }
-
-    public getAttackView() : RoleView {
-        return this.attackView;
-    }
-
     public setMoveSpeed(moveSpeed : number) {
         this.moveSpeed = moveSpeed;
     }
@@ -227,51 +208,82 @@ class PlayerView extends  egret.DisplayObjectContainer {
     }
 
     public initMovieClip(): void {
-        let self =this; 
-
-        this._mcData = RES.getRes("role_" + this.vo.getModelId() + "_json");//JSON  
-        this._mcTexture = RES.getRes("role_" + this.vo.getModelId() + "_png");//Texture         
-
-        this.mcDataFactory = new egret.MovieClipDataFactory(this._mcData, this._mcTexture);
-
-        let unitCount = this.vo.getUnitCount();
-    
+        let unitCount = this.vo.getUnitCount(); 
         this.acDirIndex = Math.floor((Math.random() * 10) % 7);
- 
+
+        let tx: egret.Texture = RES.getRes("sole_shadow_png");
         //构建小地图, N维方阵， 偏移 ox, oy，用于微调部队位置
         let coordinate = UIMgr.getWorld().getMap().createCoordinate(Math.sqrt(unitCount), 0, 0); 
         this.info = coordinate.getInfo();
-        for( let i = 0 ; i < unitCount ; i++ ) {
-            var action = new egret.MovieClip(this.mcDataFactory.generateMovieClipData(this.acName[this.acNameIndex] + "_" + this.acDir[this.acDirIndex])); //run_l_d_d
 
-            this.addChild(action);
-            action.scaleX = 0.7;
-            action.scaleY = 0.7;
-            this.actions.push(action);
 
-            let [x,y] = coordinate.index2cell(i);
-            let [x1,y1] = coordinate.cell2world(x,y);            
+        let cfg = RES.getRes("SoldierConfig_json");
+        let animationName = cfg[this.vo.getModelId()].animation
+        // console.log("animationName === " + animationName);
 
-            action.x = x1 ;
-            action.y = y1 ;
+        let cbFunc = (mcDataFactory) => {
+            this.mcDataFactory = mcDataFactory;
 
-            action.gotoAndPlay(1,-1);
+            let actionCount =  Math.ceil(this.vo.getPecentHp() * unitCount);
+            let roleLayer = new egret.DisplayObjectContainer();
+            for( let i = 0 ; i < actionCount ; i++ ) {
+                let [x,y] = coordinate.index2cell(i);
+                let [x1,y1] = coordinate.cell2world(x,y);                
+                let bm = new egret.Bitmap(tx);
+                this.addChild(bm);
+                bm.anchorOffsetX = tx.bitmapData.width / 2;
+                bm.anchorOffsetY = tx.bitmapData.height / 2;
+                [bm.x, bm.y] = [x1, y1];
+                this.shadows.push(bm);
+                
+                var action = new egret.MovieClip(this.mcDataFactory.generateMovieClipData(this.acName[this.acNameIndex] + "_" + this.acDir[this.acDirIndex])); //run_l_d_d
+                action.gotoAndPlay(1,-1);     
 
-            // action.addEventListener(egret.Event.LOOP_COMPLETE, e=>{ {
-            //     console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            //     this.setAcNameIndex(0);
-            //     // action.gotoAndPlay(1,-1);
-            // }}, this);   
-          
+                action.scaleX = this.vo.getScale();
+                action.scaleY = this.vo.getScale();
+                this.actions.push(action);
 
-        // action.addEventListener(egret.Event.LOOP_COMPLETE, function (e:egret.Event):void {
-            
-        //     egret.log("play times:");
-        // }, this);                     
+                action.x = x1 ;
+                action.y = y1 ;
+
+                roleLayer.addChild(action);
+            }
+            this.addChild(roleLayer);
+
         }
 
+        Actor.createDataFactory(animationName,cbFunc);//("role_" + this.vo.getModelId());
+
+        // let actionCount =  Math.ceil(this.vo.getPecentHp() * unitCount);
+
+        
+        // let roleLayer = new egret.DisplayObjectContainer();
+        // for( let i = 0 ; i < actionCount ; i++ ) {
+        //     let [x,y] = coordinate.index2cell(i);
+        //     let [x1,y1] = coordinate.cell2world(x,y);                
+        //     let bm = new egret.Bitmap(tx);
+        //     this.addChild(bm);
+        //     bm.anchorOffsetX = tx.bitmapData.width / 2;
+        //     bm.anchorOffsetY = tx.bitmapData.height / 2;
+        //     [bm.x, bm.y] = [x1, y1];
+        //     this.shadows.push(bm);
+            
+        //     var action = new egret.MovieClip(this.mcDataFactory.generateMovieClipData(this.acName[this.acNameIndex] + "_" + this.acDir[this.acDirIndex])); //run_l_d_d
+        //     action.gotoAndPlay(1,-1);     
+
+        //     action.scaleX = this.vo.getScale();
+        //     action.scaleY = this.vo.getScale();
+        //     this.actions.push(action);
+
+        //     action.x = x1 ;
+        //     action.y = y1 ;
+
+        //     roleLayer.addChild(action);
+        // }
+        // this.addChild(roleLayer);
+
         //血槽 
-        this.progressBar = new ProgressBar();
+        this.progressBar = new ProgressBar(this.vo.getIsOwner()?0:1);
         this.progressBar.setProgress(this.vo.getPecentHp());
         let scale = 0.4;
         this.progressBar.scaleX = scale;
@@ -279,25 +291,63 @@ class PlayerView extends  egret.DisplayObjectContainer {
         this.progressBar.anchorOffsetX = this.progressBar.width / 2;
         this.progressBar.x = this.width / 2;
         this.addChild(this.progressBar); 
-    }
-    
-    //服务器返回人物移动
-    public updatePath(data) {
-        this.move_path = data.move_path;
-        this.moveIndex = 0; //行走下标重置
-        this.moveOnePath();
+
+
+        this.nameText  = new egret.TextField();
+        this.nameText.text = "" + this.getVO().getId();
+        this.nameText.textColor = 0xffffff;
+        this.nameText.size = 20;
+        this.nameText.anchorOffsetX = this.nameText.width /2 ;
+        this.nameText.anchorOffsetY = this.nameText.height - 20;
+        this.addChild(this.nameText);
+
     }
 
-    //路径分解
-    public moveOnePath() {
+    //服务器返回人物移动
+    public updatePath(info) {
+        this.move_info = info;
+        if (info.status === 1) {
+            this.move_path = info.move_path;
+            this.moveIndex = 0; //行走下标重置
+
+            //如果有固定时间。则使用
+            if (info.useTime) {
+                this.useTimeFixation =info.useTime;
+            }else {
+                this.useTimeFixation = 0;
+            }
+
+            this._moveOnePath();
+        }else if(info.status === 0){
+            let [_x, _y] = this.manager.getWorldMap().cell2world(info.cur_point.x, info.cur_point.y);
+            let x_dis = this.x - _x;
+            let y_dis = this.y - _y; 
+            let towPointDis = Math.sqrt(x_dis*x_dis + y_dis*y_dis);
+            
+
+            
+            this.targetX = _x;
+            this.targetY = _y;
+            if ( towPointDis > 5){
+                //模拟最后一站数据
+                this.move_path = [{x:info.cur_point.x,y:info.cur_point.y,z:info.cur_point.z}];
+                this.moveIndex = 0; //行走下标重置
+                console.log(this.vo.getId() +" == 瞬间移动 距离 == "+  towPointDis);
+                this._moveOnePath(true);
+                // if (this.getAcNameIndex() === ACTION_NAME.RUN){
+                //     this.setAcNameIndex(ACTION_NAME.IDLE);
+                // }
+                // this.playAction();
+                // this.removeEventListener(egret.Event.ENTER_FRAME,this.bgMove,this);  
+            } else {
+                this.stop();
+            }
+        }   
+    }
+
+    public _moveOnePath(rightNow?:any) {
         let cellX = this.move_path[this.moveIndex].x;
         let cellY = this.move_path[this.moveIndex].y;
-
-        this._moveOnePath(cellX,cellY);
-    }
-
-    public _moveOnePath(cellX,cellY ,callBack?:Function) {
-        this.goToTargetCallBack = callBack;
 
         let [targetX,targetY] = UIMgr.getWorld().getMap().cell2world(cellX,cellY);
 
@@ -305,100 +355,60 @@ class PlayerView extends  egret.DisplayObjectContainer {
         if(targetX === this.x && targetY === this.y){
             return ;
         }
-        this.stage.removeEventListener(egret.Event.ENTER_FRAME,this.bgMove,this);  
-        // this.acNameIndex = 1;
-        this.setAcNameIndex(1);
+        this.removeEventListener(egret.Event.ENTER_FRAME,this.bgMove,this);  
+        this.setAcNameIndex(ACTION_NAME.RUN);
         this.targetX = targetX;
         this.targetY = targetY;   
-
 
         let disX = Math.abs(this.targetX - this.x);
         let disY = Math.abs(this.targetY - this.y);
         this.towPointDis = Math.sqrt(disX * disX + disY * disY); //两点距离
         
-        let [curCellX,curCellY] = UIMgr.getWorld().getMap().world2cell(this.x,this.y);
+        let [_curCellX,_curCellY] = UIMgr.getWorld().getMap().world2cell(this.x,this.y);
+
+        //更改 服务器返回的点计算    
+        let curCellX = this.move_info.cur_point.x; //this.move_info.cur_point.x;
+        let curCellY = this.move_info.cur_point.y; //this.move_info.cur_point.y;
 
         let xCellNum = Math.abs(cellX - curCellX);
         let yCellNum = Math.abs(cellY - curCellY);
         this.towPointCellNum = xCellNum > yCellNum ? xCellNum : yCellNum ; 
-        
-        this.moveDisX = targetX - this.x;
-        this.moveDisY = targetY - this.y;
-        //斜边长
-        var  xiexianDis = Math.sqrt(this.moveDisX*this.moveDisX + this.moveDisY*this.moveDisY);
+        //此次有bug 排除格子刚好过界
+        this.towPointCellNum =  this.towPointCellNum  === 0 ?1: this.towPointCellNum;    
+        //格子算速度的被除数。所以这里添加加速处理
+        this.towPointCellNum /= rightNow?this.speedUp:1;
 
-        this.moveSpeedX = this.moveDisX / xiexianDis * this.moveSpeed;
-        this.moveSpeedY = this.moveDisY / xiexianDis * this.moveSpeed;
+        this.setDirByTowPoints(targetX,targetY,this.x,this.y);
 
-        // this.acDirIndex = this.calculateDir(this.moveDisX,this.moveDisY,xiexianDis);
-        this.setAcDirIndex(this.calculateDir(this.moveDisX,this.moveDisY,xiexianDis));
-        // egret.log(this.acDirIndex);
         this.playAction();
       
         this.timeOnEnterFrame = egret.getTimer();
-        this.stage.addEventListener(egret.Event.ENTER_FRAME,this.bgMove,this);  
+        this.addEventListener(egret.Event.ENTER_FRAME,this.bgMove,this);  
 
         this.moveIndex++;        
     }
 
-    public calculateDis() {
-
-    }
-
     public calculateSpeed( useTime): number{
-            return this.towPointDis / (this.moveTimeOneCell * this.towPointCellNum) * useTime;
+            let useTimeAll = (this.moveTimeOneCell * this.towPointCellNum); //格子总共使用时间
+            if (this.useTimeFixation > 0 ){
+                useTimeAll = this.useTimeFixation;
+            }
+            let speed = (this.towPointDis / useTimeAll) * useTime;
+            return speed;
     }
 
-    //计算人物角度
-    public calculateDir(moveDisX: number,moveDisY: number,xiexianDis: number): number {
-        let angelTotal = 0 ; // 区块矫正 角度
-
-        if(moveDisX >= 0 ){ //右半部分
-            if(moveDisY >= 0){ //右下部分
-                let angle = utils.MahtSin(moveDisY ,xiexianDis);
-                angelTotal = angle + 90;
-            }else{ //右上部分
-                // console.log('moveDisY == ' + moveDisY);
-                let angle = utils.MahtSin(moveDisY ,xiexianDis);
-                // console.log('angle == ' + angle);
-                angelTotal = angle + 90;
-            }
-        }else{ //左半部分
-            if(moveDisY > 0){ //左下部分 
-                let angle = utils.MahtSin(moveDisX ,xiexianDis);
-                angelTotal = Math.abs(angle) + 180;
-            }else{ //左上部分
-                let angle = utils.MahtSin(moveDisX ,xiexianDis);
-                angelTotal = 360 + angle;
-            }
-        }
-
-        angelTotal = (angelTotal + 22.5)%361;
-        let dirIndex = Math.ceil((angelTotal)/ ( 45));
-        return dirIndex - 1;
-    }
-
-
-    public bgMove(evt:egret.Event): void {
+    public bgMove(time:any): void {
         var now = egret.getTimer();  
         var pass = this.timeOnEnterFrame;  
         var useTime = now - pass;    
-
-        // if (this.towPointDis > 100){
-        //     this.setMoveSpeed(0.5);
-        // }else{
-            //速度
-            let moveSp = 1.1; //= this.calculateSpeed(useTime);
-            this.setMoveSpeed(moveSp);
-            // console.log("moveSp ======================= " + moveSp);
-            //斜边长
-            var  xiexianDis = Math.sqrt(this.moveDisX*this.moveDisX + this.moveDisY*this.moveDisY);
-
-            this.moveSpeedX = this.moveDisX / xiexianDis * this.moveSpeed;
-            this.moveSpeedY  = this.moveDisY / xiexianDis * this.moveSpeed;
-        // }
-       
+        //速度
+        let moveSp =  this.calculateSpeed(useTime);
+        this.setMoveSpeed(moveSp);
+        this.moveSpeedX = this.moveDisX / this.xiexianDis * this.moveSpeed;
+        this.moveSpeedY = this.moveDisY / this.xiexianDis * this.moveSpeed;
         this.moveUpdate();
+
+        // console.log("//onEnterFrame: ", (1000 / useTime).toFixed(5));
         this.timeOnEnterFrame = egret.getTimer();  
     }
 
@@ -406,14 +416,21 @@ class PlayerView extends  egret.DisplayObjectContainer {
      * 移动坐标
      */
     public moveUpdate() {
+        //如果是待机状态。它还行走。则切换为行走状态
+        if (this.getAcNameIndex() === ACTION_NAME.IDLE) {
+            this.setAcNameIndex(ACTION_NAME.RUN);
+            this.playAction();
+            console.log("切换为 走路状态 id=== "  + this.getVO().getId());
+        }
+
         this.x +=this.moveSpeedX;
         this.y +=this.moveSpeedY;
         this.vo.setX(this.x);
         this.vo.setY(this.y);
         this.recordMovePath(this.x,this.y,this.acDirIndex);
 
-        this.chectReach(this.x,this.y,this.targetX,this.targetY);
-
+        this.chectReach();
+        
         // this.drawLine();
     }
 
@@ -444,81 +461,78 @@ class PlayerView extends  egret.DisplayObjectContainer {
         this.needChangeAction = false;
         let isScanleX:boolean;
         let acDirIndex = this.acDirIndex;
-        // if (!this.is8Dir){
-        //     isScanleX = (acDirIndex === 3 || acDirIndex === 4 ||acDirIndex === 5 ||
-        //     acDirIndex === 9 ||acDirIndex === 10 ||acDirIndex === 11 )
-        // }else{
-            isScanleX = (acDirIndex === 5 || acDirIndex === 6 ||acDirIndex === 7  )
-        // }
+       
+        isScanleX = (acDirIndex === ACTION_DIR.DOWN_45_REVERSE || acDirIndex === ACTION_DIR.RIGHT_REVERSE ||acDirIndex === ACTION_DIR.UP_45_REVERSE  )
 
         this._playAction(isScanleX,one);
     }
 
     public _playAction(isScanleX : boolean,one?:boolean) {
-        for (let i = 0 ; i < this.actions.length ; i++) {
-            let action = this.actions[i];
-            if (isScanleX ){
-                action.scaleX = -Math.abs(action.scaleX);
-            }else{
-                action.scaleX = Math.abs(action.scaleX);
+        if (this.mcDataFactory){
+            for (let i = 0 ; i < this.actions.length ; i++) {
+                let action = this.actions[i];
+                if (isScanleX ){
+                    action.scaleX = -Math.abs(action.scaleX);
+                }else{
+                    action.scaleX = Math.abs(action.scaleX);
+                }
+        
+                // action.play (this.acNameIndex,this.acDirIndex);  
+                //change by cyb 9-20
+            //    console.log(" action name xxx=== "  + this.acName[this.acNameIndex] + "_" + this.acDir[this.acDirIndex]);
+
+                action.movieClipData = this.mcDataFactory.generateMovieClipData(this.acName[this.acNameIndex] + "_" + this.acDir[this.acDirIndex]);
+                action.gotoAndPlay(1,one?0:-1);        
             }
-            action.movieClipData = this.mcDataFactory.generateMovieClipData(this.acName[this.acNameIndex] + "_" + this.acDir[this.acDirIndex]);
-            action.gotoAndPlay(1,one?0:-1);        
         }
+
  
     }
    
     public ReachToChangeAction() {
-        if(this.moveIndex >= this.move_path.length) {
-            this.stage.removeEventListener(egret.Event.ENTER_FRAME,this.bgMove,this);  
-            this.setAcNameIndex(0);
-            // this.acNameIndex = 0;
-            this.playAction();
-
-            if (this.goToTargetCallBack !== undefined){
-                this.goToTargetCallBack(this);
-                this.goToTargetCallBack = undefined;
-            }
-            console.log("到达目的地...切换待机状态... ");
-        }else{
-             console.log("走完 等待服务器返回...... ");
-            // this.moveOnePath();
-        }
-    
+         
     }
 
     /**
      * 检测是否走到终点
      */
-    public chectReach(playerX: number,playerY: number,targetX: number,targetY: number): boolean {
-        //test 8方向和12方向
+    public chectReach(): boolean {
+        //test 8方向
         switch(this.acDirIndex){
-            case 0:
-            case 1:
-            case 7:
-                if (  playerY <= targetY){
-                    this.ReachToChangeAction();
+            case ACTION_DIR.UP:
+            case ACTION_DIR.UP_45:
+            case ACTION_DIR.UP_45_REVERSE:
+                if (  this.y <= this.targetY ){
+                    if ( this.moveIndex >= this.move_path.length){
+                         this.stop();
+                    }
+                    return true;
                 }            
                 break;
-            case 3:
-            case 4:
-            case 5:
-                if (  playerY > targetY){
-                    this.ReachToChangeAction();
+            case ACTION_DIR.DOWN_45:
+            case ACTION_DIR.DOWN:
+            case ACTION_DIR.DOWN_45_REVERSE:
+                if (  this.y > this.targetY){
+                    if ( this.moveIndex >= this.move_path.length){
+                         this.stop();
+                    }
+                    return true;                    
                 }              
-                // if (playerX >= targetX && playerY >= targetY){
-                // if (playerX >= targetX && playerY >= targetY){
-                //     this.ReachToChangeAction();
-                // }
                 break;
-            case 2:
-                if (playerX >= targetX){
-                    this.ReachToChangeAction();
+            case ACTION_DIR.RIGHT:
+                if (this.x >= this.targetX){
+                    if ( this.moveIndex >= this.move_path.length){
+                         this.stop();
+                    }
+                    return true;                    
                 }                
                 break; 
-            case 6:
-                if (playerX <= targetX){
-                    this.ReachToChangeAction();
+            case ACTION_DIR.RIGHT_REVERSE:
+                if (this.x <= this.targetX){
+                    if ( this.moveIndex >= this.move_path.length){
+                         this.stop();
+                    }
+                    return true;                    
                 }                
                 break; 
         }             
@@ -530,7 +544,7 @@ class PlayerView extends  egret.DisplayObjectContainer {
      */
     public setFrontRoleView(frontRole : RoleView) {
         this.frontRole = frontRole;
-        this.stage.addEventListener(egret.Event.ENTER_FRAME,this.followMove,this);  
+        this.addEventListener(egret.Event.ENTER_FRAME,this.followMove,this);  
     }
 
     public getFrontRoleView() : RoleView {
@@ -539,22 +553,22 @@ class PlayerView extends  egret.DisplayObjectContainer {
 
     public disFrontRoleView() {
         this.frontRole = undefined;
-        this.stage.removeEventListener(egret.Event.ENTER_FRAME,this.followMove,this);  
+        this.removeEventListener(egret.Event.ENTER_FRAME,this.followMove,this);  
     }
 
     public followMove() {
         let point:Mpoint = this.getRecordPrevious();
         
         if (point) {
-            // this.acNameIndex = 1;
-            this.setAcNameIndex(1);
+            this.setAcNameIndex(ACTION_NAME.RUN);
+            if(point.dir === undefined && this.frontRole){
+                point.dir = this.getAcDirIndex();
+            }
             this.moveUpdateFollow(point.x , point.y ,point.dir);
         }else{
             this.setAcNameIndex(0);
-        //    this.acNameIndex = 0;
             this.playAction();
             //test  算伤害
-            // this.hurtAndRefresh(1);
         }
 
     }
@@ -562,7 +576,6 @@ class PlayerView extends  egret.DisplayObjectContainer {
     //记录行走路径
     public recordMovePath(x: number ,y: number,acDirIndex: number): void {
         let point:Mpoint = new Mpoint(x,y,acDirIndex);
-
         while (this.points.length >= this.saveAllFollowFrame) {
             this.points.splice(0, 1);
         }
@@ -583,23 +596,14 @@ class PlayerView extends  egret.DisplayObjectContainer {
      * @param x 当前坐标 x ,y  
      */
     public moveUpdateFollow(x: number ,y: number, dir:number) {
-        // this.x +=this.moveSpeedX;
-        // this.y +=this.moveSpeedY;
         this.x = x;
         this.y = y;
         this.setAcDirIndex(dir);
-        // this.acDirIndex = dir;
         this.vo.setX(this.x);
         this.vo.setY(this.y);
-
         let [cellX,cellY] = UIMgr.getWorld().getMap().world2cell(this.x,this.y);
-
         this.vo.setCellXY(cellX,cellY);
-        
         this.recordMovePath(this.x,this.y,this.acDirIndex);
-        
-        // this.parent.setChildIndex( this,Math.ceil(this.y));
-
         this.playAction();
     }
 
@@ -612,24 +616,84 @@ class PlayerView extends  egret.DisplayObjectContainer {
         var aa = false 
         while ( (this.actions.length - 1) * ( 100 /this.vo.getUnitCount()) / 100 >= this.vo.getPecentHp() ){
             let action = this.actions.splice(this.actions.length - 1 ,1)[0] ;
-            // action.parent
             action.parent.removeChild(action);
-            console.log("倒下一个..... = " + this.actions.length);
+
+            let shadow = this.shadows.splice(this.shadows.length - 1 ,1)[0] ;
+            shadow.parent.removeChild(shadow);
         }
 
         if(this.actions.length <= 0) {
-            console.log("该方阵死亡..........!!!" + typeof(this));
-
-            //  console.log("here.......///////////////////////" );
             this.dispose();
         }
     }
 
+    public setDirByTowPoints(x1,y1,x2,y2) {
+        this.moveDisX = x1 - x2;
+        this.moveDisY = y1 - y2;
+        //斜边长
+        this.xiexianDis = Math.sqrt(this.moveDisX*this.moveDisX + this.moveDisY*this.moveDisY);
+        if (this.xiexianDis === 0   )return ;  //如果距离为0 则不需要改变角度
+
+        let dir = this.calculateDir(this.moveDisX,this.moveDisY,this.xiexianDis);
+        this.setAcDirIndex(dir);        
+    }
+
+    //计算人物角度
+    public calculateDir(moveDisX: number,moveDisY: number,xiexianDis: number): number {
+        let angelTotal = 0 ; // 区块矫正 角度
+
+        if(moveDisX >= 0 ){ //右半部分
+            if(moveDisY >= 0){ //右下部分
+                let angle = utils.MahtSin(moveDisY ,xiexianDis);
+                angelTotal = angle + 90;
+            }else{ //右上部分
+                let angle = utils.MahtSin(moveDisY ,xiexianDis);
+                angelTotal = angle + 90;
+            }
+        }else{ //左半部分
+            if(moveDisY > 0){ //左下部分 
+                let angle = utils.MahtSin(moveDisX ,xiexianDis);
+                angelTotal = Math.abs(angle) + 180;
+            }else{ //左上部分
+                let angle = utils.MahtSin(moveDisX ,xiexianDis);
+                angelTotal = 360 + angle;
+            }
+        }
+
+        angelTotal = (angelTotal + 22.5)%361;
+        let dirIndex = Math.floor((angelTotal)/ ( 45));
+        if (dirIndex > 7) {
+            console.log(" !!!!!!!!!!!!!!!!!!!!!!!!!!! 这里出现越界了。 = " + angelTotal);
+            console.log(" !!!!!!!!!!!!!!!!!!!!!!!!!!! 这里出现越界了。 = " + dirIndex);
+            dirIndex = 7 ;
+        }
+        return dirIndex;
+    }
+
+    public stop() {
+        //change by  cyb 
+         this.x = this.targetX;
+         this.y = this.targetY;  
+        //  console.log("this.x === " + this.x);      
+        //  console.log("this.y === " + this.y);      
+
+        if (this.getAcNameIndex() === ACTION_NAME.RUN){
+             this.setAcNameIndex(ACTION_NAME.IDLE);
+        }
+         this.playAction();
+         this.removeEventListener(egret.Event.ENTER_FRAME,this.bgMove,this);  
+    }
+
     public dispose() { 
-         this.stage.removeEventListener(egret.Event.ENTER_FRAME,this.followMove,this);  
-         this.stage.removeEventListener(egret.Event.ENTER_FRAME,this.bgMove,this);  
-         this.parent.removeChild(this);
-        //  console.log(" ********************this.parent.removeChild(this); == ");
+         this.removeEventListener(egret.Event.ENTER_FRAME,this.followMove,this);  
+         this.removeEventListener(egret.Event.ENTER_FRAME,this.bgMove,this);  
+         if(this.shape.parent){
+             this.shape.parent.removeChild(this.shape);
+         }
+        
+         if ( this.parent){
+             this.parent.removeChild(this);
+         }
     }
 }
 

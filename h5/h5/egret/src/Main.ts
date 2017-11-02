@@ -27,46 +27,22 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-
-// 资源配置，您可以访问
-// https://github.com/egret-labs/resourcemanager/tree/master/docs
-// 了解更多细节 
-@RES.mapConfig("config.json",()=>"resource",path => {
-    var ext = path.substr(path.lastIndexOf(".") + 1);
-    var typeMap = {
-        "jpg": "image",
-        "png": "image",
-        "webp": "image",
-        "json": "json",
-        "fnt": "font",
-        "pvr": "pvr",
-        "mp3": "sound",
-        "proto": "proto"
-    }
-    var type = typeMap[ext];
-    if (type == "json") {
-        if (path.indexOf("sheet") >= 0) {
-            type = "sheet";
-        } else if (path.indexOf("movieclip") >= 0) {
-            type = "movieclip";
-        };
-    }
-    return type;
-})
 class Main extends eui.UILayer {
     /**
      * 加载进度界面
      * loading process interface
      */
-    private loadingView: LoadingUI;
+
     protected createChildren(): void {
         super.createChildren();
 
-        RES.processor.map("proto", ProtoAnalyzer);
+        // RES.processor.map("proto", ProtoAnalyzer);
         //注入自定义的素材解析器
         let assetAdapter = new AssetAdapter();
         egret.registerImplementation("eui.IAssetAdapter",assetAdapter);
         egret.registerImplementation("eui.IThemeAdapter",new ThemeAdapter());
+
+        RES.registerAnalyzer("jzip", RES.JszipAnalyzer);
 
         this.loadRes();
         NetMgr.init();
@@ -80,9 +56,9 @@ class Main extends eui.UILayer {
     }
 
     private async loadRes() {
-        await RES.loadConfig();
+        await ResExt.loadConfig("resource/default.res.json");
         await this.loadTheme();
-        await RES.loadGroup("loading", 0);
+        await ResExt.loadGroup("loading");
 
         this.startGame();
     }
@@ -92,12 +68,14 @@ class Main extends eui.UILayer {
     }
 
     private startGame() {
+        if (!DEBUG) { console.log = ()=>{}; };
+        
         this.addEventListener(egret.Event.ENTER_FRAME,this.gameUpdate, this);
 
         UIMgr.setup(this);
+        UIMgr.open(ui.ResLoadingUI, "load");
         UIMgr.open(ui.NetTip, "mask");
-        UIMgr.open(ui.LoginLoadingUI, "load");
+        UIMgr.open(ui.LoginLoadingUI);
         // UIMgr.open(ui.GameLoadingUI);
     }
-
 }

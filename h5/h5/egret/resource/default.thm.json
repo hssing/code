@@ -45,6 +45,7 @@
     "resource/ui/HomeUISkin.exml",
     "resource/ui/LaodingProgress.exml",
     "resource/ui/LoadingUISkin.exml",
+    "resource/ui/LocationUISkin.exml",
     "resource/ui/LoginUISkin.exml",
     "resource/ui/NetTipUISkin.exml",
     "resource/ui/ServerItemUISkin.exml",

@@ -1,8 +1,9 @@
 namespace mo {
 
-    const NAME_CLS: any = {
-        ground : TileLayer,
-        background : Background,
+    const TYPE_CLS = {
+        tilelayer : TileLayer,
+        tileland : TileLand,
+        tilegrid : TileGrid,
     };
 
     export class Layers {
@@ -11,12 +12,18 @@ namespace mo {
         private dynamicCells: DynamicCells;
         private layers: Array<Layer>;
         private nameLayers: any;
+        private background: Background;
 
         public constructor(map: TMap, camera: Camera, data: any) {
             this.map = map;
             this.dynamicCells = new DynamicCells(map);
 
             this.layers = [];
+
+            if (data.bgInfo) {
+                this.background = new Background(this.map, "background", -1, camera, data);
+            }
+
             let layerIdx = 0;
             for(let name of (data.layers || [])){
                 let obj = this.createLayer(camera, name, layerIdx++, data);
@@ -31,6 +38,10 @@ namespace mo {
         }
 
         public viewportChanged(x: number, y: number): void {
+            if (this.background) {
+                this.background.viewportChanged(x, y);
+            }
+
             this.dynamicCells.update(x, y);
             if (!this.dynamicCells.isNeedUpdate()) { return; }
 
@@ -45,7 +56,7 @@ namespace mo {
         private updateLayer(x: number, y: number, info: any): void {
             let files: any = this.dynamicCells.getCellFiles();
             // 短时间内刷新，移除之前的刷新请求
-            this.map.canelNextFrame();
+            this.map.cancelNextFrame();
             let update = ()=>this.update(x, y, info);
             this.map.getData().loadAllDataFiles(files, update);
         }
@@ -69,7 +80,8 @@ namespace mo {
         }
 
         private createLayer(camera: Camera, name: string, layerIdx: number, data: any): Layer {
-            let cls = NAME_CLS[name] || TileLayer;
+            let type = this.map.getData().getLayerType(layerIdx);
+            let cls = TYPE_CLS[type];
             if (cls === undefined || cls === null){ return undefined; }
             return new cls(this.map, name, layerIdx, camera, data, this.dynamicCells);
         }

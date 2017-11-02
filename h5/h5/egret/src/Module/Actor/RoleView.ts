@@ -7,12 +7,10 @@
  */
 
 class RoleView extends PlayerView {
-
-
    
     protected static instance:RoleView;
-    public constructor(root?:any) {
-        super(root);
+    public constructor(root?:any,manager?: world.Manager,modelId?:any,vo?:any,uiInstance?:any) {
+        super(root,manager,modelId,vo,uiInstance);
         RoleView.instance = this;
         this.touchEnabled = false;
         this.width = this.info.w;

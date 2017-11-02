@@ -188,11 +188,11 @@ namespace mo {
         }
 
         public callNextFrame(func: Function, thisObject: Object): void {
-            this.canelNextFrame();
+            this.cancelNextFrame();
             this.timer = utils.after(0, func, thisObject);
         }
 
-        public canelNextFrame(): void {
+        public cancelNextFrame(): void {
             if (!this.timer) { return; }
             this.timer.stop();
             this.timer = null;

@@ -26,15 +26,14 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-namespace ui{
+namespace ui {
 
    export class LoginLoadingUI extends UIBase {
        
         private progress:eui.ProgressBar;
         private bg:eui.Image;
 
-        private static CUSTOM = 
-        {
+        private static CUSTOM = {
             skinName : "resource/ui/LoadingUISkin.exml"
         }
 
@@ -52,30 +51,21 @@ namespace ui{
         }
 
         private async loadRes() {
-            let self = this;
-
-            let loading:RES.PromiseTaskReporter = {
-                onProgress(current: number, total: number){
-                    self.setProgress(current,total);
-                }
-            };
-        
-            await RES.loadGroup("login", 0, loading);
-            await RES.loadGroup("camp");
-			await RES.loadGroup("data");
-            self.removeFromParent();
+            await ResExt.loadGroup("login", 0, (event: RES.ResourceEvent) => {
+				this.setProgress(event.itemsLoaded, event.itemsTotal)
+			});
             
-            let timer = new egret.Timer(0, 1);
-            timer.addEventListener(egret.TimerEvent.TIMER, ()=>this.startCreateScene(), this);
-            timer.start();
+			await ResExt.loadGroup("data");
+            this.removeFromParent();
+            Singleton(Timer).after(0, this.Event("LoginLoadingUI_Timer", this.startCreateScene));
         }
 
-            /**
+         /**
          * 创建场景界面
          * Create scene interface
          */
         protected startCreateScene(): void {
-            UIMgr.open(ui.Login, "panel");
+            UIMgr.open(ui.Login);
         }
     }
 

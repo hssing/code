@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="aboutUISkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" xmlns:ui="ui.*">
+<e:Skin class="NetTipUISkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" xmlns:ui="ui.*">
 	<w:Declarations>
 		<tween:TweenGroup id="busy">
 			<tween:TweenItem target="{image}">

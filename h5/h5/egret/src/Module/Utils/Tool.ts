@@ -15,4 +15,45 @@ namespace utils {
 
         return 180/Math.PI * Math.asin(sideA / sideC);
     }
+
+    export function GetCurrentTime(flag) {
+        var currentTime = "";
+        var myDate = new Date();
+        var year = myDate.getFullYear();
+        var month = parseInt(myDate.getMonth().toString()) + 1; //month是从0开始计数的，因此要 + 1
+        if (month < 10) {
+            month = parseInt("0" + month.toString());
+        }
+        var date = myDate.getDate();
+        if (date < 10) {
+            date = parseInt("0" + date.toString());
+        }
+        var hour = myDate.getHours();
+        if (hour < 10) {
+            hour = parseInt("0" + hour.toString());
+        }
+        var minute = myDate.getMinutes();
+        if (minute < 10) {
+            minute = parseInt("0" + minute.toString());
+        }
+        var second = myDate.getSeconds();
+        if (second < 10) {
+            second = parseInt("0" + second.toString());
+        }
+
+        var milliseconds = myDate.getMilliseconds();
+        if (milliseconds < 10) {
+            milliseconds = parseInt("0" + milliseconds.toString());
+        }
+
+        if(flag == "0")
+        {
+            currentTime = year.toString() + month.toString() + date.toString() + hour.toString() + minute.toString() + second.toString(); //返回时间的数字组合
+        }
+        else if(flag == "1")
+        {
+            currentTime = year.toString() + "/" + month.toString() + "/" + date.toString() + " " + hour.toString() + ":" + minute.toString() + ":" + second.toString()+ ":" + milliseconds.toString(); //以时间格式返回
+        }
+        return currentTime;
+    }
 }

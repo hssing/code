@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="LoginUISkin" width="720" height="1140" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image source="game_BG_jpg" scale9Grid="10,10,10,10" verticalCenter="0" horizontalCenter="0" width="852" height="1136"/>
+	<e:Image source="game_BG_jpg" scale9Grid="10,10,10,10" verticalCenter="0" horizontalCenter="0" width="720" height="1140"/>
 	<e:Group id="group" width="80%" height="300" anchorOffsetX="0" anchorOffsetY="0" bottom="142" horizontalCenter="0">
 		<e:Image width="309" height="55" y="32" source="common_bk3_png" fillMode="scale" scale9Grid="9,9,10,10" horizontalCenter="0"/>
 		<e:Image width="309" height="55" y="122.3" source="common_bk3_png" fillMode="scale" scale9Grid="9,9,10,10" horizontalCenter="0.5"/>
-		<e:EditableText id="account" text="" y="42.04" size="25" width="300" horizontalCenter="0" textAlign="center"/>
+		<e:EditableText id="account" text="" y="44.04" size="25" width="300" horizontalCenter="0" textAlign="center"/>
 		<e:ToggleButton id="btnLogin" label="" x="133" y="190" horizontalCenter="0">
 			<e:skinName>
 				<e:Skin states="up,down,disabled">

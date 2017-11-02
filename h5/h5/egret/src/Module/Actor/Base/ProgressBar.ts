@@ -6,10 +6,11 @@ class ProgressBar extends egret.Sprite {
      * 反向进度条
      * */
     public reverse = false;
-    public constructor( ) {
+    public constructor(index:number = 0) {
         super();
+        let xutiao = ['xuetiao01_png','xuetiao02_png'];
         let _bg:string = 'xuetiao_back_png';
-        let _bar:string = 'xuetiao01_png';
+        let _bar:string = xutiao[index];
         this.background = new egret.Bitmap(RES.getRes(_bg));
         this.bar = new egret.Bitmap(RES.getRes(_bar));
         this.addChild(this.background);

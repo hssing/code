@@ -1,124 +1,84 @@
 namespace world {
 
+    export let g_world_view:any;
     export class ArmyMgr {
 
-        private manager: Manager;
-        private root: any;
-        private views: any;
-        private data: any;
-        private amryViews:any;
+        protected manager: Manager;
+        protected root: any;
+        protected views: any;
+        protected data: any;
 
-        private timer: egret.Timer
+        private phalanxPoints = {}; //方阵坐标保存  生成部队如果存在方阵信息，则首先使用
+
+        protected timer: egret.Timer
         public constructor(mgr: Manager, root) {
             this.manager = mgr;
             this.root = root;
 
-            this.views = {};  //方阵 views ？
-            this.amryViews = {}; //部队列表
-            this.data = {};
-
-            /*** 本示例关键代码段开始 ***/
-            this.timer = new egret.Timer(1000, 0);
-
-            this.timer.addEventListener(egret.TimerEvent.TIMER, this.resetChildIndex, this);       
-            this.timer.start();            
+            this.views = {};
         }
 
         public dispose() {
         }
 
-        public recycle(data: any): void {
-            // for (let k in this.views) { 
-            //     if (!data[k]) {
-            //         this.removeArmy(k);
-            //     }
-            // }
-            for (let k in this.amryViews) { 
+        protected recycle(data: any): void {
+            for (let k in this.views) { 
                 if (!data[k]) {
                     this.removeArmy(k);
                 }
+            }         
+        }
+
+        public updatePath(info: any, id: number): void {
+            if (this.views[id] ) {
+                this.views[id].updatePath(info);
             }            
         }
 
-        public updatePath(info: any): void {
-            if (this.amryViews[info.army_id] ) {
-                if (info.status === 1) {
-                    info.status = 0;
-                    this.amryViews[info.army_id].updatePath(info);
-                }
-                // this.views[info.army_id].refresh();
-            }            
-        }
-
-        // public updateArmyData(data: any): void {
-        //     // console.log("armyId ==== " + data.armyId);
-        //     for (let k in data){
-        //         this.amryViews[data.armyId] = new ArmyView(data[k],this.manager,this.root);
-        //         this.amryViews[data.armyId].mergeViews(this.views);
-        //     }
-        // }
-
-        public updateData(data: any): void {
-            // for (let k in data) {
-            //     this.updateArmy(k, data[k]);
-            // }
-
+        public updateData(data: any,world?:any): void {
+            g_world_view = world;
             for (let k in data) {
-                if (this.amryViews[k]) {
-                    this.amryViews[k].setData(data[k]);
-                    this.amryViews[k].refresh();
-                }else {
-                    
-                    this.amryViews[k] = new ArmyView(data[k],this.manager,this.root);
-                    this.amryViews[k].mergeViews(this.views);
-                }
+                this.updateArmy(k, data[k]);
             }
 
             this.recycle(data);
         }
 
-        private updateArmy(k: string, info: any): void {
-            //oldCreate 
+        public hitTestPoint(x: number, y: number): any[] {
+            let ret = [];
+            for (let k in this.views) {
+                if (this.views[k].hitTestPoint(x, y)) {
+                    ret.push(k);
+                }
+            }
+            return ret;
+        }
+
+        protected updateArmy(k: string, info: any): void {
             if (this.views[k]) {
                 this.views[k].setData(info);
-                this.views[k].refresh();
-                // console.log("刷新......... == " + k);
+                // this.views[k].refresh();
             }else {
                 this.views[k] = this.buildArmy(info);
-                // console.log("创建......... == " + k);
-            }   
-
-            //new create
-            // if (this.amryViews[k]) {
-            //     // this.amryViews[k].setData(info);
-            //     // this.amryViews[k].refresh();
-            // }else {
-            //     //new create
-            //     this.amryViews[k] = new ArmyView(info,this.manager,this.root);
-            //     this.amryViews[k].mergeViews(this.views);
-            // }   
-
-        }
-
-        private buildArmy(info: any): Army {
-            return new Army(this.manager, this.root, info);
-        }
-
-        private removeArmy(armyId: number|string): void {
-            // this.views[armyId].dispose();
-            // delete this.views[armyId];
-            this.amryViews[armyId].dispose();
-            let views = this.amryViews[armyId].getRoleViews();
-            for (let k in views ) {
-                 delete this.views[k];            
             }
+        }
 
-            delete this.amryViews[armyId];    
-                    
+        protected buildArmy(info: any): any {
+            return new ArmyView(this.manager, this.root, info);
+        }
+
+        protected removeArmy(id: number|string): void {
+            this.views[id].dispose();
+            delete this.views[id];   
+        }
+
+        protected deleteArmyData(id) {
+            let world = LogicMgr.get(logic.World) as logic.World;
+            world.getArmayData()
         }
 
         //TODO 待优化
-        private resetChildIndex() {
+        protected resetChildIndex() {
             let views = this.getViews();
             
             let viewsArr = [];
@@ -166,8 +126,12 @@ namespace world {
             return this.root;
         }
 
+        public getPhalanxPoints () {
+            return this.phalanxPoints;
+        }        
+
         public getArmyViews() :any {
-            return this.amryViews;
+            return this.views;
         }
     }
 }

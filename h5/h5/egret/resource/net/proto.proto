@@ -104,6 +104,8 @@ message m_build_go_to_battle_toc{
 
 
 
+
+
 // 部队 士兵
 
 // 获取兵牌
@@ -126,6 +128,29 @@ message m_army_set_soldier_tos {
 message m_army_set_soldier_toc {
     required   int32  ret_code  = 1[default=0]; //返回码
 }
+
+
+//获取地图上自己所有的部队坐标
+message m_army_get_own_map_army_pos_tos{
+}
+
+message m_army_get_own_map_army_pos_toc{
+    repeated p_army_pos     army_pos_list     =1;// 部队的坐标列表
+}// 战斗
+message m_fight_report_toc{
+    required int32                attacker_id              =1[default=0]; //攻击者id
+    required int32                attacker_type            =2[default=0]; //攻击者类型
+    required int32                attacker_hp              =3[default=0]; //攻击者hp
+    required int32                skill_id                 =4[default=0]; //技能id
+    required int32                attacker_x               =5[default=0]; //攻击者坐标点x
+    required int32                attacker_y               =6[default=0]; //攻击者坐标点y
+    repeated p_attack_info        attack_info_list         =7;            //攻击信息列表
+    required int32                is_normal_attack_skill   =8[default=0]; //是否是普通攻击
+}
+
+
+
+
 // 玩家基础信息
 message p_role_base{
      required int32					role_id	 				= 1[default = 0];	// 角色id
@@ -243,4 +268,12 @@ message p_attack_info{
     required int32                defender_x               =3[default=0]; //受击者坐标点x
     required int32                defender_y               =4[default=0]; //受击者坐标点y
     repeated p_damage_info        damage_info_list         =5;            //伤害信息列表
+}
+
+
+//部队坐标
+message p_army_pos{
+     required int32                army_id                  =1[default=0]; //部队id
+     required int32                x                        =2[default=0];//坐标点x
+     required int32                y                        =3[default=0];//坐标点y
 }

@@ -1,4 +1,5 @@
 namespace mo {
+
     export interface WPoint {
         x: number;
         y: number;

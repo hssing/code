@@ -8,9 +8,9 @@ namespace mo {
         private collector: Function;
         private pos: CPoint;
         private cells: any;
-        private node: eui.Group;
+        private node: egret.DisplayObjectContainer;
 
-        public constructor(map: TMap, node: eui.Group, dynamicCells: any, creator: Function, collector: Function) {
+        public constructor(map: TMap, node: egret.DisplayObjectContainer, dynamicCells: any, creator: Function, collector: Function) {
             this.map = map;
             this.dynamicCells = dynamicCells;
 
@@ -19,10 +19,7 @@ namespace mo {
             this.pos = { x : Infinity, y : Infinity, };
             this.cells = {};
 
-            this.node = new eui.Group();
-            this.node.width = node.width;
-            this.node.height = node.height;
-            node.addChild(this.node);
+            this.node = node;
 
             //this.node.cacheAsBitmap = true;
         }
@@ -55,9 +52,9 @@ namespace mo {
 
             let indicesKeys = info.keys;// this.dynamicCells.getCellsKey();
             for (let i = indicesKeys.length-1; i >= 0; i--){
-                let index = indices[indicesKeys[i]];
+                let index = indicesKeys[i];
                 if (index !== undefined && this.cells[index] === undefined) {
-                    let node: eui.Group = this.creator(index);
+                    let node = this.creator(index);
                     if (!node) {
                         continue;
                     }

@@ -8,6 +8,7 @@ namespace ui {
     
         private static CUSTOM = {
             closeBg : {alpha: 0.5, disable: false},
+            resGroup : ["chuZheng"],
             skinName : "resource/ui/ArmyMove/ArmyMoveUISkin.exml",
             binding: {["btnClose"]: { method : "onBtnClose"}, ["btnOK"]: { method : "onBtnOK"}}
         }

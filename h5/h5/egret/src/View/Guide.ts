@@ -22,7 +22,7 @@ namespace ui {
 			}else if(layer === "World") {
 				ui = UIMgr.getWorld();
 			}else {
-				let pannel = UIMgr.getLayer("Pannel");
+				let pannel = UIMgr.getLayer("panel");
 				ui = pannel.getChildAt(pannel.numChildren - 1);
 			}
 

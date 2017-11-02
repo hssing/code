@@ -5,6 +5,7 @@ class NetMsg extends events.Base {
     public subIds: any;
     private netCenter: NetCenter;
     private nameIds: any;
+    private static root: any;
 
     public init(manager: NetCenter): void {
         this.netCenter = manager;
@@ -24,6 +25,13 @@ class NetMsg extends events.Base {
         return this.modId;
     }
 
+    private getProtoRoot(): any {
+        if (NetMsg.root) { return NetMsg.root; }
+        let data = RES.getRes(this.proto);
+        NetMsg.root = protobuf.parse(data, { keepCase : true }).root;
+        return NetMsg.root;
+    }
+
     public send(name: string, obj: Object = {}): any {
         console.log(`+++++++ Send Msg: [${this["__class__"]} : ${name}] +++++++`, obj);
 
@@ -37,19 +45,31 @@ class NetMsg extends events.Base {
         let subId = Math.floor(mainId % 100);
         let obj = this.unpack(subId, data);
 
-        console.log(`======= Recv Msg: [${this["__class__"]} : ${this.subIds[subId]}] =======`, obj);
-
+        console.log(ServerTime.formatTime(ServerTime.secToDay(ServerTime.getTime())) + ` ========== Recv Msg: [${this["__class__"]} : ${this.subIds[subId]}] =======`, obj);
+        
+        if (obj.ret_code !== undefined && (obj.ret_code !== 1)) {
+            let error = DBRecord.fetchId("ServerErrorCodeConfig_json", obj.ret_code);
+            if (error && error.display !== 0) {
+                Prompt.popTip(`ERROR CODE: ${obj.ret_code} - ${error[config.LANGUAGE]}`);
+            }else {
+                Prompt.popTip(`ERROR CODE: ${obj.ret_code}`);
+            }
+            if (error && error.handle === 0 ) {
+                return;
+            }
+        }
         this.fireEvent(this.subIds[subId], obj);
     }
 
     public pack(subId: number, obj: Object): any {
-        let data = RES.getRes(this.proto);
-        let root = protobuf.parse(data, { keepCase : true }).root;
+        let root = this.getProtoRoot();
         var parser = root.lookupType(this.subIds[subId]);
 
-        var errMsg = parser.verify(obj);
-        if (errMsg) {
-            throw new Error(errMsg);
+        if (DEBUG) {
+            let errMsg = parser.verify(obj);
+            if (errMsg) {
+                throw new Error(errMsg);
+            }
         }
 
         var message = parser.create(obj);
@@ -59,8 +79,7 @@ class NetMsg extends events.Base {
     }
 
     public unpack(subId: number, buff: ArrayBuffer): any {
-        let data = RES.getRes(this.proto);
-        let root = protobuf.parse(data, { keepCase : true }).root;
+        let root = this.getProtoRoot();
         var parser = root.lookupType(this.subIds[subId]);
         return parser.decode(new Uint8Array(buff));
     }

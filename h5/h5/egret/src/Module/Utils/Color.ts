@@ -25,7 +25,7 @@ namespace utils {
     }
 
     // 替换颜色
-    export function setColor(sprite: egret.DisplayObject, c: {r?, g?, b?, a?}): void {
+    export function setColor(sprite: egret.DisplayObject, c: {r?: number, g?: number, b?: number, a?: number}): void {
         let colorMatrix = [
             0,0,0,0,c.r||0,
             0,0,0,0,c.g||0,
@@ -37,7 +37,7 @@ namespace utils {
     }
 
     // 颜色变暗
-    export function setColorR(sprite: egret.DisplayObject, c: {rr?, gr?, br?}): void {
+    export function setColorR(sprite: egret.DisplayObject, c: {rr?: number, gr?: number, br?: number}): void {
         let colorMatrix = [
             c.rr,0,0,0,0,
             0,c.gr,0,0,0,

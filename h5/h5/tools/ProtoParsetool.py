@@ -65,13 +65,19 @@ def genNetMsgFile(moudleId, moudleName, messageNameList, subIdList, gen_dir, pro
 
     write_file.write('\n')
 
-    write_file.write('\t\tpublic on(name: ' + '|'.join(tocList) + ', event: events.Event): void {\n')
+    tocStr = "string"
+    if tocList:
+        tocStr = '|'.join(tocList) 
+    write_file.write('\t\tpublic on(name: ' + tocStr + ', event: events.Event): void {\n')
     write_file.write('\t\t\tsuper.on(name, event);\n')
     write_file.write('\t\t}\n')
 
     write_file.write('\n')
 
-    write_file.write('\t\tpublic send(name: ' + '|'.join(tosList) + ', obj?: Object): void {\n')
+    tosStr = "string"
+    if tosList:
+        tosStr = '|'.join(tosList) 
+    write_file.write('\t\tpublic send(name: ' + tosStr + ', obj?: Object): void {\n')
     write_file.write('\t\t\tsuper.send(name, obj);\n')
     write_file.write('\t\t}\n')
 

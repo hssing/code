@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="HomeUISkin" width="720" height="1140" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<w:Config id="15ddeb28302"/>
-	<e:Group touchEnabled="false" right="0" left="0" top="0" bottom="0" cacheAsBitmap="false" touchThrough="false">
-		<e:Image id="imgHomeBg" source="homebg_png" bottom="0" top="0" left="0" right="0" touchEnabled="false" x="0" y="0" scaleX="1" scaleY="1" pixelHitTest="true" name="HOMEBG" visible="false"/>
+	<e:Group touchEnabled="false" right="0" left="0" top="0" bottom="0" cacheAsBitmap="false" touchThrough="true">
+		<e:Image id="imgHomeBg" source="homebg_png" bottom="0" top="0" left="0" right="0" touchEnabled="false" x="0" y="0" scaleX="1" scaleY="1" pixelHitTest="false" name="HOMEBG"/>
 		<e:Group width="100%" height="154" x="0" anchorOffsetY="0" top="0" touchEnabled="false" y="0" scaleX="1" scaleY="1">
 			<e:Image x="0" y="0" source="main_up_bg_png" touchEnabled="false" pixelHitTest="true"/>
 			<e:Image x="20" y="17" source="main_head_png" touchEnabled="false" width="116" height="116"/>
@@ -29,19 +29,19 @@
 			<e:Image x="0" verticalCenter="0" anchorOffsetX="19" source="main_resources_4_png"/>
 			<e:Label text="20.1w" size="19" verticalCenter="0" horizontalCenter="0" textColor="0xe6d6c9"/>
 			</e:Group>
-			<e:Group width="100" height="110" x="15" y="180" scaleX="1" scaleY="1">
+			<e:Group id="btnClickArmy1" width="100" height="110" x="15" y="180" scaleX="1" scaleY="1">
 			<e:Image source="main_queue_display_1_png" x="0" y="0"/>
 			<e:Image horizontalCenter="0" verticalCenter="0" source="main_1y_png"/>
 			<e:Image source="main_queue_display_bg_png" horizontalCenter="0" bottom="0"/>
 			<e:Label text="13:26:45" bottom="4" horizontalCenter="0.5" size="18" textColor="0xbcb5b5"/>
 			</e:Group>
-			<e:Group width="100" height="110" x="15" y="295" scaleX="1" scaleY="1">
+			<e:Group id="btnClickArmy2" width="100" height="110" x="15" y="295" scaleX="1" scaleY="1">
 			<e:Image x="0" y="0" source="main_queue_display_2_png"/>
 			<e:Image horizontalCenter="0" verticalCenter="0" source="main_2y_png"/>
 			<e:Image source="main_queue_display_bg_png" horizontalCenter="0" bottom="0"/>
 			<e:Label text="13:26:45" bottom="4" horizontalCenter="0.5" size="18" textColor="0xBCB5B5"/>
 			</e:Group>
-			<e:Group width="100" height="110" x="15" y="410" scaleX="1" scaleY="1">
+			<e:Group id="btnClickArmy3" width="100" height="110" x="15" y="410" scaleX="1" scaleY="1">
 			<e:Image x="0" y="0" source="main_queue_display_3_png"/>
 			<e:Image source="main_1y_png" horizontalCenter="0" verticalCenter="0"/>
 			<e:Image source="main_queue_display_bg_png" horizontalCenter="0" bottom="0"/>
@@ -138,7 +138,7 @@
 				</e:skinName>
 			</e:CheckBox>
 			</e:Group>
-			<e:Group width="90" height="90" x="621.32" y="-108.69" scaleX="1" scaleY="1" touchEnabled="false">
+			<e:Group id="btnMap" width="90" height="90" x="621.32" y="-108.69" scaleX="1" scaleY="1" touchEnabled="false">
 			<e:Image source="main_icon_map_bg_png" horizontalCenter="0" verticalCenter="0"/>
 			<e:Image source="main_icon_map_png" horizontalCenter="0" verticalCenter="0"/>
 			<e:Label text="地图" y="72" size="22" stroke="2" textColor="0xedc090" horizontalCenter="0"/>

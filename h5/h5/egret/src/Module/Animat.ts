@@ -73,7 +73,7 @@ namespace ui {
     // usage: UI 动画扩展
     /*
         playAnimation: (name: string, frame?: number)=>void;
-        utils.Mixins(Login, [ui.AnimatImpl]);
+        eui.sys.mixin(Login, ui.AnimatImpl);
     */
 
     export class AnimatImpl {

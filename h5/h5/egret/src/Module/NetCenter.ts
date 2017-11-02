@@ -66,6 +66,7 @@ class NetCenter extends Logic {
             this.sock = null;
         }
 
+        this.toState("disconnect");
         Singleton(Timer).cancel(this, NET_HEART);
         Singleton(Timer).cancel(this, NET_WAITING);
 
@@ -115,8 +116,7 @@ class NetCenter extends Logic {
 
     private onSocketClose(): void {
         console.log("onSocketClose");
-        this.toState("disconnect");
-
+        this.doClose();
         this.fireEvent(NetCenter.EVT.CLOSE);
     }
 

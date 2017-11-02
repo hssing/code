@@ -1,39 +1,42 @@
 module ui {
 
-	export class CampMain extends UIBase {
+	export class CampMain extends ResBase {
         
-        private soldierData: any;
-        private soldierList: eui.List;
+        private soldierData: any[];
+        private soilderPageviewGroup: eui.Group;
+        private soldierPageview: PageView;
         private soldierScroller: eui.Scroller;
         private isClickedItem: boolean;
-        private item;
         private point: egret.Point;
         private group: eui.Group;
         private groupPoint: egret.Point;
         private selectedIndex: number;
         private data: any;
-        private backGroup: eui.Group;
-        private preGroup: eui.Group;
-        private midGroup: eui.Group;
-        private preHeadGroup: eui.Group;
-        private midHeadGroup: eui.Group;
-        private backHeadGroup: eui.Group;
         private labelHum: eui.Label;
         private labelChariot: eui.Label;
         private labelFighter: eui.Label;
         private labelBiochemical: eui.Label;
-        private preHeadBg: eui.Image;
-        private midHeadBg: eui.Image;
-        private backHeadBg: eui.Image;
+        private curFormationPos: string;
+        private pageViewGroup: eui.Group;
+        private embattlePageView: PageView
+        private curEmbattlePageId: number;
+        private imgName: eui.Image;
+        private buildName: eui.Label;
 
         private static CUSTOM = {
             skinName : "resource/ui/Camp/CampUISkin.exml",
+            resGroup : ["camp"],
             binding : {
-                ["btn_Hum"] : { method : "onBtnHum", },
-                ["btn_Chariot"] : { method : "onBtnChariot",}, 
-                ["btn_Fighter"] : { method : "onBtnFighter",},
-                ["btn_Biochemical"] : { method : "onBtnBiochemical",},
-                ["btnClose"] : { method : "onBtnClose" ,},
+                ["btn_Hum"] : {method : "onBtnHum", },
+                ["btn_Chariot"] : {method : "onBtnChariot",}, 
+                ["btn_Fighter"] : {method : "onBtnFighter",},
+                ["btn_Biochemical"] : {method : "onBtnBiochemical",},
+                ["btnClose"] : {method : "onBtnClose" ,},
+                ["btnForwardPage"] : {method: "onBtnForwardPage"},
+                ["btnNextPage"] : {method : "onBtnNextPage"},
+                ["btnConscription"] : {method : "onBtnConscription"},
+                ["btnSoldierForward"] : {method : "onBtnSoldierForward"},
+                ["btnSoldierNext"] : {method : "onBtnSoldierNext"},
             },
         }
 
@@ -46,67 +49,93 @@ module ui {
             this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouchBegin, this);
 			this.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onTouchMove, this);
 			this.addEventListener(egret.TouchEvent.TOUCH_END, this.onTouchEnd, this);
+
             LogicMgr.get(logic.Camp).on(logic.Camp.EVT.SOLDIER_TOUCH_BEGIN, this.Event("onSoldierTouchBegin"));
-            NetMgr.get(msg.Army).on("m_army_set_soldier_toc", this.Event("onArmySetSoldier"));
+            LogicMgr.get(logic.Camp).on(logic.Camp.EVT.SOLDIER_FORMATION, this.Event("setEmbattlePageViewData"));
 
-            this.soldierData = RES.getRes("SoldierConfig_json");
-            let data = this.getDataByType(SoldierType.Human);
-            this.refeshData(data);
             this.point = new egret.Point();
-            this.initArmy();
+            this.soldierData = this.getSoldierData();
+            this.curEmbattlePageId = 0;
+            this.initEmBattlePageview();
+            this.setBaseInfo();
+            this.initSoilderPageview();
         }
 
-        private onArmySetSoldier(param) {
-
+        private initSoilderPageview() {
+            this.soldierPageview = new PageView();
+            this.soldierPageview.setPageItem(ui.CampSoldierPageviewItem);
+            this.soldierPageview.x = 0;
+            this.soldierPageview.y = 0;
+            this.soldierPageview.width = this.soilderPageviewGroup.width;
+            this.soldierPageview.height = this.soilderPageviewGroup.height;
+            this.soldierPageview.setTouchEnabled(false);
+            this.soilderPageviewGroup.addChild(this.soldierPageview);
+            let data = this.getSoldierDatasByType(SoldierType.Human);
+            this.soldierPageview.setData(data);
         }
 
-        protected initArmy() {
-            let armyInfo = LogicMgr.get(logic.Build).getAllArmyInfo();
-            for(let i = 0; i < armyInfo.length; i ++) {
-                this.refeshForWrdPhalanx(armyInfo[i].forward_phalanx);
-                this.refeshCenterPhalanx(armyInfo[i].center_phalanx);
-                this.refeshBackPhalanx(armyInfo[i].back_phalanx);
+        private getSoldierData(): any[] {
+            let soldierData: any[] = new Array<any>();
+            let ids: number[] =LogicMgr.get(logic.Camp).getSoldierIds();
+            for(let i: number = 0; i < ids.length; i ++) {
+                let cfg = LogicMgr.get(logic.Camp).getSoldierCfgById(ids[i]);
+                soldierData.push(cfg);
             }
+            return soldierData;
         }
 
-        private refeshForWrdPhalanx(phalanx) {
-            if(phalanx.soldiers_id === 0) {
-                return;
+        private setBaseInfo() {
+            this.curEmbattlePageId = this.embattlePageView.getCurPageId();
+            let data = this.embattlePageView.getCurPageDataById(this.curEmbattlePageId);
+            this.buildName.text = data.buildName;
+        }
+
+        protected initEmBattlePageview() {
+            this.embattlePageView = new PageView();
+            this.embattlePageView.setPageItem(ui.EmbattlePageViewItem);
+            this.embattlePageView.x = 0;
+            this.embattlePageView.y = 0;
+            this.embattlePageView.width = this.pageViewGroup.width;
+            this.embattlePageView.height = this.pageViewGroup.height;
+            this.embattlePageView.setTouchEnabled(false);
+            this.pageViewGroup.addChild(this.embattlePageView);
+            this.setEmbattlePageViewData()
+        }
+
+        private setEmbattlePageViewData() {
+            let armyInfos: Array<logic.ArmyInfo> = LogicMgr.get(logic.Build).getAllArmyInfo();
+            let data = this.getEmBattlePageVewData(armyInfos);
+            this.embattlePageView.setData(new eui.ArrayCollection(data));
+        }
+
+        private getEmBattlePageVewData(armyInfos: Array<logic.ArmyInfo>) {
+            let data = [];
+            for(let i = 0; i < armyInfos.length; i ++) {
+                let buildId = LogicMgr.get(logic.Build).getBuildIdByArmyId(armyInfos[i].army_id);
+                let buildInfo = LogicMgr.get(logic.Build).getInfo(buildId);
+                let name = LogicMgr.get(logic.Build).getNameById(buildInfo.type);
+                let item = {armyInfo: armyInfos[i], pageId: i, buildName: name};
+                data.push(item);
             }
-            this.preHeadGroup.visible = true;
-            this.preHeadBg.source = this.soldierData[phalanx.soldiers_id].portrait;
+            return data;
         }
 
-        private refeshCenterPhalanx(phalanx) {  
-            if(phalanx.soldiers_id === 0) {
-                return;
-            }
-            this.midHeadGroup.visible = true;
-            this.midHeadBg.source = this.soldierData[phalanx.soldiers_id].portrait;
+        private onBtnForwardPage() {
+            this.embattlePageView.forwardPage();
+            this.setBaseInfo();
         }
 
-        private refeshBackPhalanx(phalanx) {
-            if(phalanx.soldiers_id === 0) {
-                return;
-            }
-            this.backHeadGroup.visible = true;
-            this.backHeadBg.source = this.soldierData[phalanx.soldiers_id].portrait;
-        }
-
-        protected setSoldier(build_id: number, army_id: number, pos: number, soldier_type: number) {
-                //item.armyName = armyInfo[i].army_id;
-             let data = {build_id:build_id, army_id:army_id, pos:pos, soldier_type:soldier_type};
-             NetMgr.get(msg.Army).send("m_army_set_soldier_tos", data);
+        private onBtnNextPage() {
+            this.embattlePageView.nextPage();
+            this.setBaseInfo();
         }
 
 		protected onTouchBegin(e: egret.TouchEvent) {
-			console.log("CampMain===onBegin");
             this.point.x = e.stageX;
             this.point.y = e.stageY;
 		}	
 
 		protected onTouchMove(e: egret.TouchEvent) {
-			console.log("CampMain===onMove");
             if(this.isClickedItem == false || !this.group){
                 this.point.x = e.stageX;
                 this.point.y = e.stageY;
@@ -120,41 +149,15 @@ module ui {
 		}
 
 		protected onTouchEnd(e: egret.TouchEvent) {
-			console.log("CampMain===onTouchEnd");
             if(this.isClickedItem == false || !this.group) {
                 return;
             }
             this.isClickedItem = false;
             this.group.parent.removeChild(this.group);
             this.group = null;
-   
-            if(this.preGroup.hitTestPoint(e.stageX, e.stageY)) {
-                console.log("====this.preGroup");
-                let armyInfo = LogicMgr.get(logic.Build).getAllArmyInfo();
-                armyInfo[0].forward_phalanx.soldiers_id = parseInt(this.data.id);
-                armyInfo[0].forward_phalanx.hp = 100;
-                this.refeshForWrdPhalanx(armyInfo[0].forward_phalanx);
-                let build_id = LogicMgr.get(logic.Build).getBuildIdByArmyId(armyInfo[0].army_id);
-                this.setSoldier(build_id, armyInfo[0].army_id, 1, parseInt(this.data.id));
-            }
-            if(this.midGroup.hitTestPoint(e.stageX, e.stageY)){
-                console.log("===midGroup");
-                let armyInfo = LogicMgr.get(logic.Build).getAllArmyInfo();
-                armyInfo[0].center_phalanx.soldiers_id = parseInt(this.data.id);
-                armyInfo[0].center_phalanx.hp = 100;
-                this.refeshCenterPhalanx(armyInfo[0].center_phalanx);
-                let build_id = LogicMgr.get(logic.Build).getBuildIdByArmyId(armyInfo[0].army_id);
-                this.setSoldier(build_id, armyInfo[0].army_id, 2, parseInt(this.data.id));
-            }
-            if(this.backGroup.hitTestPoint(e.stageX, e.stageY)) {
-                console.log("===backGroup");
-                let armyInfo = LogicMgr.get(logic.Build).getAllArmyInfo();
-                armyInfo[0].back_phalanx.soldiers_id = parseInt(this.data.id);
-                armyInfo[0].back_phalanx.hp = 100;
-                this.refeshBackPhalanx(armyInfo[0].back_phalanx);
-                 let build_id = LogicMgr.get(logic.Build).getBuildIdByArmyId(armyInfo[0].army_id);
-                this.setSoldier(build_id, armyInfo[0].army_id, 3, parseInt(this.data.id));
-            }
+            
+            let curPageid = this.embattlePageView.getCurPageId();
+            LogicMgr.get(logic.Camp).fireEvent(logic.Camp.EVT.EMBATTLE_END, e.stageX, e.stageY, curPageid, this.data.id);
 		}
 
         private onSoldierTouchBegin(group: eui.Group, data) {
@@ -168,98 +171,89 @@ module ui {
             this.data = data;
         }
 
-        protected getDataByType(type) {
+        protected getSoldierDatasByType(type) {
             let data = [];
-            for(let key in this.soldierData) {
-                if(type !== this.soldierData[key].fight_type) {
+            for(let i: number = 0; i < this.soldierData.length; i ++) {
+                if(!this.soldierData[i]) {
+                    continue;
+                }
+
+                if(type !== this.soldierData[i].type) {
                     continue;
                 }
                 let item = {"id": null, 
                             "type": null, 
                             "fight_type": null, 
                             "name": null,
-                            "portrait": null
+                            "portrait": null,
+                            "frameBg":null,
+                            "numBg":null 
                         };
-                item.id = key;
-                item.type = this.soldierData[key].type;
-                item.fight_type = this.soldierData[key].fight_type;
-                item.name = this.soldierData[key].name;
-                item.portrait = this.soldierData[key].portrait
+                item.id = this.soldierData[i].id;
+                item.type = this.soldierData[i].type;
+                item.fight_type = this.soldierData[i].fight_type;
+                item.name = this.soldierData[i].name;
+                item.portrait = this.soldierData[i].portrait;
+                item.frameBg = this.soldierData[i].frameBg;
+                item.numBg = this.soldierData[i].numBg;
                 data.push(item);
             }  
-
-            return data;
-        }
-
-        private refeshData(data: any[]) {
-            this.soldierList.dataProvider = new eui.ArrayCollection(data);
-        }
-
-        private changeColorByType(type) {
-            this.labelHum.textColor = 0x5F7071;
-            this.labelFighter.textColor = 0x5F7071;
-            this.labelChariot.textColor = 0x5F7071;
-            this.labelBiochemical.textColor = 0x5F7071;
-            if(type === SoldierType.Human) {
-                this.labelHum.textColor = 0xA5D0F6;
+            
+            let pageDatas = [];
+            for(let i: number = 0; i < data.length; i = i + 4) {
+                let pageItem = [];
+                pageItem.push(data[i]);
+                pageItem.push(data[i + 1]);
+                pageItem.push(data[i + 2]);
+                pageItem.push(data[i + 3]);
+                pageDatas.push(pageItem);
             }
-
-            if(type === SoldierType.Biochemical) {
-                this.labelBiochemical.textColor = 0xA5D0F6;
-            }
-
-            if(type === SoldierType.Chariot) {
-                this.labelChariot.textColor = 0xA5D0F6;
-            }
-
-            if(type === SoldierType.Fighter) {
-                this.labelFighter.textColor = 0xA5D0F6;
-            }
+            return new eui.ArrayCollection(pageDatas);
         }
 
         protected onBtnHum() {
-            console.log("onBtnHum");
-            this.soldierData = RES.getRes("SoldierConfig_json");
-            let data = this.getDataByType(SoldierType.Human);
-            this.refeshData(data);
-            this.changeColorByType(SoldierType.Human);
+            let data = this.getSoldierDatasByType(SoldierType.Human);
+            this.soldierPageview.setCurPageId(0);
+            this.soldierPageview.setData(data);
         }
 
         protected onBtnChariot() {
-            console.log("onBtnChariot");
-            this.soldierData = RES.getRes("SoldierConfig_json");
-            let data = this.getDataByType(SoldierType.Chariot);
-            this.refeshData(data);
-            this.changeColorByType(SoldierType.Chariot);
+            let data = this.getSoldierDatasByType(SoldierType.Chariot);
+            this.soldierPageview.setCurPageId(0);
+            this.soldierPageview.setData(data);
         }
 
         protected onBtnFighter() {
-            console.log("onBtnFighter");
-            this.soldierData = RES.getRes("SoldierConfig_json");
-            let data = this.getDataByType(SoldierType.Fighter);
-            this.refeshData(data);
-            this.changeColorByType(SoldierType.Fighter);
+            let data = this.getSoldierDatasByType(SoldierType.Fighter);
+            this.soldierPageview.setCurPageId(0);
+            this.soldierPageview.setData(data);
         }
 
         protected onBtnBiochemical() {
-            console.log("onBtnBiochemical");
-            this.soldierData = RES.getRes("SoldierConfig_json");
-            let data = this.getDataByType(SoldierType.Biochemical);
-            this.refeshData(data);
-            this.changeColorByType(SoldierType.Biochemical);
+            let data = this.getSoldierDatasByType(SoldierType.Biochemical);
+            this.soldierPageview.setCurPageId(0);
+            this.soldierPageview.setData(data);
         }
 
         protected onBtnClose() {
-            console.log("onBtnClose");
             this.removeFromParent();
         }
 
-        public onChange(e:eui.PropertyEvent) {
+        protected onBtnConscription() {
+            UIMgr.open(ui.CampConscription);
+        }
+
+        protected onBtnSoldierForward() {
+            this.soldierPageview.forwardPage();
+        }
+
+        protected onBtnSoldierNext() {
+            this.soldierPageview.nextPage();
         }
 	}
 
-    enum SoldierType {
-		Human = 1,
+    export enum SoldierType {
+		Human = 1, 
 		Chariot = 2,
         Fighter = 3,
         Biochemical = 4

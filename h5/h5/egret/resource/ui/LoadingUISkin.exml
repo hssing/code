@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="LoadingUISkin" width="720" height="1140" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image source="game_BG_jpg" scale9Grid="106,142,640,852" horizontalCenter="0" verticalCenter="0" width="852" height="1136"/>
+	<e:Image source="game_BG_jpg" scale9Grid="106,142,640,852" horizontalCenter="0" verticalCenter="0" width="720" height="1140"/>
 	<e:ProgressBar id="progress" width="500" height="20" x="64" horizontalCenter="0" minimum="0" enabled="true" skinName="LaodingProgress" bottom="69"/>
 </e:Skin>

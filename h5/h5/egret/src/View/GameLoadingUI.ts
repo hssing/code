@@ -23,21 +23,12 @@ namespace ui {
 		}
 
 		private async loadRes() {
-			let self = this;
-			let loading:RES.PromiseTaskReporter = {
-				onProgress(current: number, total: number) {
-						self.setProgress(current,total);
-					}
-				};
-			await RES.loadGroup("preload", 0, loading);
+			await ResExt.loadGroup("preload", 0, (event: RES.ResourceEvent) => {
+				this.setProgress(event.itemsLoaded, event.itemsTotal);
+			});
 			
-			for (let v of config.MAP_URLS) {
-				await RES.getResAsync(v);
-			}
-			
-			let timer = new egret.Timer(0, 1);
-			timer.addEventListener(egret.TimerEvent.TIMER, ()=>this.startCreateScene(), this);
-			timer.start();
+			await ResExt.loadGroup("map");
+			Singleton(Timer).after(0, this.Event("GameLoadingUI_Timer", this.startCreateScene));
 		}
 
 		private startCreateScene() {
@@ -47,7 +38,6 @@ namespace ui {
 			UIMgr.open(ui.Guide, "guide")
 			this.removeFromParent();
 		}
-		
 	}
 	
 }

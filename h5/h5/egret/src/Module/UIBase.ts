@@ -7,6 +7,7 @@ class UIBase extends eui.Component {
         
         this.custom = custom;
         this.includeInLayout = true;
+        this.touchEnabled = false;
         this.addEventListener(eui.UIEvent.COMPLETE, this.createCompleteEvent, this);
         this.skinName = custom.skinName;
     }

@@ -23,13 +23,15 @@ if __name__ == "__main__":
 
         le = len(test['layers'][0]['data'])
 
+        width = test['layers'][0]['width'] * test['tilewidth']
+        height = test['layers'][0]['height'] * test['tileheight']
         sqrtV = math.sqrt( le )
-        test['layers'][0]['width'] = sqrtV
-        test['layers'][0]['height'] = sqrtV
+        test['layers'][0]['width'] = int(sqrtV)
+        test['layers'][0]['height'] = int(sqrtV)
         test['width'] = sqrtV
         test['height'] = sqrtV
-        test['tilewidth'] =  test['tilesets'][0]['tilewidth']
-        test['tileheight'] = test['tilesets'][0]['tileheight']
+        test['tilewidth'] = int(width / test['layers'][0]['width'])
+        test['tileheight'] = int(height / test['layers'][0]['height'])
         test['tilesets'][0]['tileoffset']['x'] = 0
         test['tilesets'][0]['tileoffset']['y'] = 0
 

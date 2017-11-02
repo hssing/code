@@ -166,6 +166,7 @@ namespace events {
             
             if (typeof(callback) === 'string') {
                 let cbkName = callback;
+                console.assert(!!this[cbkName], `!!!!!!!Error: ${cbkName} dosn't exist!`)
                 callback = (...args)=>this[cbkName].call(this, ...args);
             }else {
                 let cbk: Function = callback;

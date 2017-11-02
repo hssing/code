@@ -41,7 +41,7 @@ namespace ui {
             this.removeFromParent();
             this.account = null;
             this.group = null;
-            UIMgr.open(ui.GameLoadingUI, "load");
+            UIMgr.open(ui.GameLoadingUI);
         }
 
 

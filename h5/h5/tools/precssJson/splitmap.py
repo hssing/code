@@ -8,15 +8,13 @@ import time
 import os
 import math
 
-# 需要拆分的方阵大小
+# square size 
 COUNT = 35
 COLS = 801
 ROWS = 801
 
 def store(data, fname, path):
 	gen_dir = os.path.join(os.getcwd(), path)
-	# if not os.path.exists(gen_dir):
- #        os.mkdir(gen_dir)
 	filePath = os.path.join(gen_dir, fname)
 	json_file = open(filePath, 'w')
 	json_file.write(json.dumps(data))
@@ -62,7 +60,7 @@ if __name__ == "__main__":
 			alldata = filter(None, alldata)
 			if alldata:
 				fn = "%d.json"%(k)
-				store(alldata, fn, '../../egret/dresource/Map/')
+				store(alldata, fn, '../../egret/dresource/Config/Map/')
 				# store(alldata, fn, 'outfile/')
 			subFiles.append(fn)
 

@@ -18,7 +18,7 @@
 		<e:Label text="{data.dis}" x="344" y="176" size="23" textColor="0x3c2d28"/>
 		<e:Label text="{data.time}" x="344" y="206.99" size="23" textColor="0x3c2d28"/>
 		<e:Image x="514" source="chuzheng_frame_buduichuzheng_s2_png" width="57" height="57" y="130"/>
-		<e:CheckBox id="checkBox" x="514" selected="false" label="" enabled="true" y="130">
+		<e:CheckBox id="checkBox" x="514" selected="false" label="" enabled="true" y="130" anchorOffsetX="0" width="56" anchorOffsetY="0" height="55">
 			<e:skinName>
 				<e:Skin states="up,down,disabled">
 				<e:Image width="100%" height="100%" source="chuzheng_frame_buduichuzheng_s2_png" source.down="chuzheng_icon_buduichuzheng_s2_png"/>

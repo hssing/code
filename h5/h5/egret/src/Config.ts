@@ -1,7 +1,8 @@
 namespace config {
 
     export const MAP_URLS = ["ditu_json"]; //, "caodi_json"];
-    export const MAP_CONFIG = "dresource/Config/Map/";
+    export const MAP_CONFIG = "resource/dassets/Map/";
+    export const MAP_SCALE = 1;
 
     export const MAP_BORDER_OFFSET = 4;  // 地图边界偏移量（单位：格子）
 
@@ -10,4 +11,5 @@ namespace config {
 
     export const MAP_BLOCKED_LAYER_NAME = "zudang";
 
+    export const LANGUAGE = "zhCHS";
 }

@@ -14,19 +14,18 @@ namespace mo {
             this.pool = {};
 
             this.strategy = new Dynamic(map, this.node, this.dynamicCells, (index) => {
-                let tile = this.dataSource.getCellTile(index, this.layerIdx);
+                let tile = this.getCellTile(index, this.layerIdx);
                 if (tile === undefined) {
                     return undefined;
                 }
-                let key = this.getTileKey(tile);
+                let key = tile.key;
                 if (this.pool[key] && this.pool[key].length > 0) {
                     return this.pool[key].pop();
                 }
 
                 let sp = this.getSprite(tile, key, index, self.data.info);
-                sp.y += self.data.info.ch - sp.height;
 
-                let gp = new eui.Group();
+                let gp = new egret.DisplayObjectContainer();
                 gp.addChild(sp);
                 gp.width = self.data.info.cw;
                 gp.height = self.data.info.ch;
@@ -42,16 +41,11 @@ namespace mo {
             });
         }
 
-        public dispose() {
-        	super.dispose();
+        protected getCellTile(index: number, layerIdx: number): any {
+            return this.dataSource.getCellTile(index, layerIdx);
         }
 
-        public getTileKey(tile: any): any {
-            let rect = tile.rect;
-            return `${tile.image}:${rect.x}-${rect.y}`;
-        }
-
-        public getSprite(tile: any, key: string, index: number, info: any): any {
+        protected getSprite(tile: any, key: string, index: number, info: any): any {
             let url = (tile.image as string).replace(".", "_");
             let bitmapData = RES.getRes(url);
             
@@ -65,19 +59,20 @@ namespace mo {
                 tx = spriteSheet.createTexture(key, rect.x, rect.y, rect.width, rect.height);
             }
             
-            let sp = new eui.Image(tx);
-            [sp.x, sp.y] = [tile.offsetX, tile.offsetY];
+            let sp = new egret.Bitmap(tx);
+            [sp.x, sp.y] = [tile.offsetX, tile.offsetY + info.ch - rect.height];
             [sp.width, sp.height] = [rect.width, rect.height];
             return sp;
         }
 
         public viewportChanged(x: number, y: number, info: any): void {
+            if (!this.isUpdate)  { return; }
             this.strategy.update(x, y, info);
             if (!this.dynamicCells.isNeedUpdate()) { return; }
             this.map.callUpdateCallback(this.dynamicCells.getCells(), this.getName());
         }
 
-        public getCellNode(cx: number, cy: number): eui.Group {
+        public getCellNode(cx: number, cy: number): egret.DisplayObjectContainer {
             return this.strategy.getCellNode(cx, cy);
         }
     }

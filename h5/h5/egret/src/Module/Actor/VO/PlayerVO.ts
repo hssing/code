@@ -20,6 +20,8 @@ class PlayerVO {
     private curHp:number = 5000; //当前血量
     private maxHp:number = 5000; //最大血量
     private unitCount:number = 4; //一个玩家 动画单位数量
+    private scale:number = 1; //设置缩放
+    private isOwner:boolean = false; //是否自己拥有
 
     public setId(id: number): void {
         this.id = id;
@@ -34,7 +36,7 @@ class PlayerVO {
     }
      
     public getModelId():number {
-        return this.modelId;
+        return this.modelId ?this.modelId:1;
     }
 
     public setName(name: string): void {
@@ -111,7 +113,7 @@ class PlayerVO {
 
 
     public setMaxHp(maxHp: number): void {
-
+        this.maxHp = maxHp;
     }
 
     public getMaxHp(): number {
@@ -129,4 +131,21 @@ class PlayerVO {
     public getUnitCount(): number{
         return this.unitCount;
     }
+
+    public setScale(scale : number) {
+        this.scale = scale;
+    }
+
+    public getScale(): number{
+        return this.scale;
+    }    
+
+    public setIsOwner(isOwner : boolean) {
+        this.isOwner = isOwner;
+    }
+
+    public getIsOwner(): boolean{
+        return this.isOwner;
+    }    
+
 }

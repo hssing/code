@@ -2,12 +2,13 @@ namespace mo {
 
     export class Layer {
 
-        protected node: eui.Group;
+        protected node: egret.DisplayObjectContainer;
         protected map: TMap;
         protected data: any;
         protected dataSource: Data;
         private name: string;
         protected layerIdx: number;
+        protected isUpdate: boolean;
 
         public constructor(map: TMap, name: string, layerIdx: number, data: any) {
             this.map = map;
@@ -16,9 +17,11 @@ namespace mo {
             this.data = data;
             this.dataSource = map.getData();
 
-            let parent = map.getNode();
+            this.isUpdate = (name !== config.MAP_BLOCKED_LAYER_NAME);
+            if (!this.isUpdate) { return; }
 
-            this.node = new eui.Group();
+            let parent = map.getNode();
+            this.node = new egret.DisplayObjectContainer();
             this.node.width = parent.width;
             this.node.height = parent.height;
             parent.addChild(this.node);
