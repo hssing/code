@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+cmd.exe /c "$(echo $(dirname $0)/build.cmd | sed 's#/#\\#g')"
